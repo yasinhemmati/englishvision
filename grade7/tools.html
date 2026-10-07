@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">ابزار — پایه هفتم</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.main-content{max-width:1280px;margin:0 auto;padding:1.5rem 1.5rem 4rem;position:relative;z-index:5}
+.tool-section{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow);border:1px solid var(--border-light);padding:2rem;margin-bottom:1.25rem}
+.tool-section h3{font-family:var(--font-display);font-size:1.3rem;color:var(--text-dark);margin-bottom:.4rem;direction:ltr;text-align:left}
+.tool-section .head-fa{font-size:.9rem;color:var(--text-mid);margin-bottom:1.5rem}
+
+/* Alphabet full */
+.alphabet-full{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.85rem}
+.alphabet-card{
+  background:linear-gradient(135deg,var(--primary-ghost) 0%,#fff 100%);
+  border:1px solid var(--border-light);border-radius:var(--radius);
+  padding:1.25rem 1rem;text-align:center;cursor:pointer;transition:all .25s;
+}
+.alphabet-card:hover{border-color:var(--primary-pale);transform:translateY(-3px);box-shadow:var(--shadow)}
+.alphabet-display{font-family:var(--font-display);font-size:3rem;line-height:1;color:var(--primary);direction:ltr;font-weight:700}
+.alphabet-display.color-vowel{color:var(--accent)}
+.alphabet-ipa{font-family:var(--font-en);font-size:.8rem;color:var(--text-mid);direction:ltr;margin-top:.35rem}
+.alphabet-fa{font-size:.78rem;color:var(--text-soft);margin-top:.2rem}
+.alphabet-example{font-family:var(--font-en);direction:ltr;font-size:.75rem;color:var(--text-soft);margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--border-light)}
+
+.legend{display:flex;gap:1rem;margin-bottom:1rem;font-size:.78rem;color:var(--text-mid);align-items:center;flex-wrap:wrap}
+.legend-dot{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;margin-left:.3rem}
+
+/* Numbers extended */
+.numbers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.85rem}
+.number-card{
+  background:linear-gradient(135deg,#27AE6022 0%,#fff 100%);
+  border:1px solid #B5D88A;border-radius:var(--radius);
+  padding:1rem;text-align:center;transition:all .2s;cursor:pointer;
+}
+.number-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.number-card-num{font-family:var(--font-display);font-size:2.2rem;color:#229954;font-weight:700;line-height:1}
+.number-card-en{font-family:var(--font-en);direction:ltr;font-size:.85rem;color:var(--text-dark);margin-top:.4rem;font-weight:600}
+.number-card-fa{font-size:.72rem;color:var(--text-soft);margin-top:.15rem}
+
+/* Colors full */
+.colors-full{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem}
+.color-card{border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s;border:1px solid var(--border-light);background:#fff}
+.color-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.color-card-swatch{height:90px;display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-size:1.4rem;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.color-card-info{padding:.85rem 1rem}
+.color-card-en{font-family:var(--font-en);direction:ltr;font-size:1rem;font-weight:600;color:var(--text-dark)}
+.color-card-fa{font-size:.82rem;color:var(--text-mid);margin-top:.15rem}
+
+/* Days/months */
+.days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.85rem}
+.day-card{background:linear-gradient(135deg,#E67E2222 0%,#fff 100%);border:1px solid #F4D89B;border-radius:var(--radius);padding:1rem;cursor:pointer;transition:all .2s}
+.day-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.day-card-en{font-family:var(--font-en);direction:ltr;font-size:1.05rem;color:#D35400;font-weight:600}
+.day-card-fa{font-size:.85rem;color:var(--text-mid);margin-top:.15rem}
+.day-card-ipa{font-family:var(--font-en);direction:ltr;font-size:.75rem;color:var(--text-soft);margin-top:.3rem}
+
+/* Time */
+.time-section{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.time-card{background:linear-gradient(135deg,#9B59B622 0%,#fff 100%);border:1px solid #C8A8DD;border-radius:var(--radius);padding:1.5rem 1rem;text-align:center}
+.time-card .clock{font-family:var(--font-display);font-size:2rem;color:#8E44AD;font-weight:700;direction:ltr;margin-bottom:.4rem}
+.time-card-en{font-family:var(--font-en);direction:ltr;font-size:.92rem;font-weight:500}
+.time-card-fa{font-size:.82rem;color:var(--text-mid);margin-top:.15rem}
+
+@media (max-width:768px){
+  .tool-section{padding:1.5rem 1.25rem}
+  .alphabet-display{font-size:2.5rem}
+}
+
+/* یکدستی فونت */
+input,button,select,textarea{font-family:inherit}
+code{font-family:var(--font-fa,inherit);font-size:.9em;background:rgba(0,0,0,.055);padding:1px 7px;border-radius:6px;display:inline-block;unicode-bidi:plaintext}
+
+/* استاندارد جهت‌ها */
+[class*="-en"]:not([class*="-end"]):not([class*="-entry"]){direction:ltr;unicode-bidi:isolate}
+.wb-input,input[type="text"],textarea{direction:ltr;text-align:left;unicode-bidi:plaintext}
+
+/* ═══════════ DUOLINGO — حذف این بلوک = برگشت کامل ═══════════ */
+:root{
+  /* بازتعریفِ توکن‌های هویتی → پالت Duolingo (سراسری) */
+  --accent:#58CC02 !important;
+  --accent-light:#E8F9DC !important;
+  --accent-glow:#E8F9DC !important;
+  --primary:#58CC02 !important;
+  --primary-light:#49AD00 !important;
+  --primary-pale:#D7F0C2 !important;
+  --primary-ghost:#EAF7E0 !important;
+  --ink:#3C3C3C !important;
+  --ink-light:#777777 !important;
+  --text-soft:#777777 !important;
+  --green:#58CC02 !important;
+  --border:#E5E5E5 !important;
+  --border-light:#E5E5E5 !important;
+  --paper:#FFFFFF !important;
+  --paper-warm:#FFFFFF !important;
+  --paper-cream:#F7F7F7 !important;
+  /* توکن‌های اختصاصی این تم */
+  --du-g:#58CC02; --du-gh:#49AD00; --du-gs:#58A700;
+  --du-blue:#1CB0F6; --du-yel:#FFC800; --du-red:#FF4B4B; --du-pur:#CE82FF; --du-orange:#FF9600;
+  --du-ink:#3C3C3C; --du-mut:#777777; --du-border:#E5E5E5; --du-s1:#F7F7F7;
+  --du-r-sm:8px; --du-r-md:12px; --du-r-lg:20px; --du-r-xl:28px;
+  --du-ease:cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── سطح و متنِ ضخیم (Duo هیچ‌جا نازک نیست) ── */
+body{ background:#FFFFFF !important; color:#3C3C3C !important; }
+body,p,span,div,a,li,td,th,label,button,input{ font-weight:700; }
+h1,h2,h3,h4,.lesson-card-en,.grade-card-title,.section-title,.header-title{
+  font-weight:800 !important; letter-spacing:-.01em !important;
+}
+.lesson-card-fa,.review-strip-fa,.section-desc,.lesson-card-desc{ font-weight:700 !important; }
+
+/* ── کارت‌ها: خطِ ضخیم + سایه‌ی فیزیکیِ پایین (نه سایه‌ی نرم) ── */
+.lesson-card,.grade-card,.tool-card{
+  border:2px solid #E5E5E5 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important;
+  transition:transform .12s var(--du-ease), box-shadow .12s, border-color .12s !important;
+}
+.lesson-card:hover,.grade-card:hover,.tool-card:hover{
+  transform:translateY(-2px) !important;
+  border-color:#58CC02 !important;
+  box-shadow:0 4px 0 #CFE8BA !important;
+}
+.lesson-card::before{ background:#58CC02 !important; height:5px !important; }
+
+/* بنرِ کارت درس: سطحِ روشن، شماره و آیکن درشت */
+.lesson-card-banner{ background:#F7F7F7 !important; border-bottom:2px solid #E5E5E5 !important; padding:1.3rem 1.3rem 1rem !important; }
+.lesson-card-num{ color:#3C3C3C !important; opacity:.22 !important; font-weight:800 !important; }
+.lesson-card-icon{ opacity:.85 !important; font-size:1.7rem !important; }
+
+/* ── نوار مرور: کاشیِ ضخیمِ سبز-لهجه، سایه‌ی فیزیکی ── */
+.review-strip{
+  background:#FFFFFF !important;
+  color:#3C3C3C !important;
+  border:2px solid #E5E5E5 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important;
+  transition:transform .12s var(--du-ease), box-shadow .12s !important;
+}
+.review-strip:hover{ transform:translateY(-2px) !important; box-shadow:0 4px 0 #CFE8BA !important; border-color:#58CC02 !important; }
+.review-strip-title{ color:#3C3C3C !important; font-weight:800 !important; }
+.review-strip-fa{ color:#777777 !important; }
+.review-strip-icon{ background:#E8F9DC !important; color:#256B14 !important; border-radius:var(--du-r-md) !important; }
+.review-strip-arrow{ color:#256B14 !important; }
+.review-strip.done{ background:#E8F9DC !important; border-color:#58CC02 !important; }
+.review-strip.done .review-strip-title{ color:#fff !important; }
+.review-strip.done .review-strip-icon{ background:#58CC02 !important; color:#fff !important; }
+
+/* ── دکمه‌ی اصلی = CTA سه‌بعدیِ Duo که با کلیک فرو می‌رود ── */
+.btn-primary,.btn-check,.footer-btn.next,.audio-play{
+  background:#58CC02 !important; color:#fff !important;
+  border:none !important; border-radius:var(--du-r-md) !important;
+  box-shadow:0 4px 0 #58A700 !important;
+  font-weight:800 !important; text-transform:none !important;
+  transition:transform .08s, box-shadow .08s, background .12s !important;
+}
+.btn-primary:hover,.btn-check:hover,.footer-btn.next:hover{ background:#49AD00 !important; }
+.btn-primary:active,.btn-check:active,.footer-btn.next:active,.audio-play:active{
+  transform:translateY(4px) !important; box-shadow:0 0 0 #58A700 !important;
+}
+/* دکمه‌ی ثانویه = کاشیِ سفیدِ خط‌ضخیم با سایه‌ی فیزیکی */
+.btn-secondary,.btn-practice,.footer-btn.prev{
+  background:#fff !important; color:#3C3C3C !important;
+  border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important; font-weight:800 !important;
+  transition:transform .08s, box-shadow .08s !important;
+}
+.btn-secondary:active,.btn-practice:active,.footer-btn.prev:active{ transform:translateY(2px) !important; box-shadow:0 0 0 #E5E5E5 !important; }
+.audio-play{ border-radius:50% !important; }
+
+/* ── نوار XP/پیشرفت: پیلِ سبزِ پُر ── */
+.progress-fill,.vocab-progress-fill,.sidebar-progress-fill,.ev-card-progress > i,
+.progress-bar-fill,[class*="progress"] [class*="fill"]{
+  background:#58CC02 !important; border-radius:9999px !important;
+}
+.progress-bar,.ev-card-progress{ border-radius:9999px !important; background:#EBEBEB !important; }
+.progress-circle{ color:#58CC02 !important; }
+
+/* ── ناوبری: تبِ فعال سبزِ پُر، گرد ── */
+.nav-link.active{ background:#58CC02 !important; color:#fff !important; border-radius:var(--du-r-md) !important; box-shadow:0 3px 0 #58A700 !important; }
+.nav-link:hover{ color:#256B14 !important; }
+.brand-glyph{ background:#58CC02 !important; color:#fff !important; border-radius:var(--du-r-md) !important; box-shadow:0 3px 0 #58A700 !important; }
+
+/* ── لینک/های‌لایتِ ثانویه = آبیِ Duo ── */
+.sl-highlight,.word.highlight,mark:not(.ev-highlight){ background:#D7F0FF !important; color:#3C3C3C !important; border-radius:6px !important; }
+
+/* ── سایدبارِ درس: کاشیِ خط‌ضخیم، آیتم فعال سبز ── */
+.sidebar{ border:2px solid #E5E5E5 !important; border-radius:var(--du-r-lg) !important; box-shadow:0 2px 0 #E5E5E5 !important; }
+.sidebar-item.active,.tab-btn.active{ background:#E8F9DC !important; color:#256B14 !important; border-radius:var(--du-r-md) !important; font-weight:800 !important; }
+.sidebar-item.active .sidebar-icon{ color:#256B14 !important; }
+
+/* ── کارت‌های محتوا ── */
+.conv-card,.quiz-card,.practice-statements,.visual-panel,.sl-example,.rc-passage,.progress-card{
+  border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important; box-shadow:0 2px 0 #E5E5E5 !important;
+}
+.audio-bar{ border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important; }
+
+/* ── پیل/برچسب‌ها + برچسبِ زنده ── */
+.badge,.pill,.tag,.chip{ border-radius:9999px !important; font-weight:800 !important; }
+.badge-live,.status-live,.live-badge{ background:#FF9600 !important; color:#fff !important; }
+
+/* ── کتاب‌های hero: سایه‌ی فیزیکیِ درشت ── */
+.tome{ box-shadow:0 8px 0 rgba(0,0,0,.12), 0 16px 32px -12px rgba(0,0,0,.25) !important; }
+
+/* ── ناوبری چسبان ── */
+.nav,.top-nav{ background:rgba(255,255,255,.92) !important; border-bottom:2px solid #E5E5E5 !important; }
+
+/* ── احترام به کاهشِ حرکت: فنریت/پرش خاموش ── */
+@media (prefers-reduced-motion: reduce){
+  .lesson-card,.grade-card,.tool-card,.review-strip,
+  .btn-primary,.btn-check,.btn-secondary,.btn-practice,.footer-btn,.audio-play{
+    transition:none !important;
+  }
+  .lesson-card:hover,.grade-card:hover,.tool-card:hover,.review-strip:hover{ transform:none !important; }
+  .btn-primary:active,.btn-check:active,.footer-btn.next:active,
+  .btn-secondary:active,.btn-practice:active,.footer-btn.prev:active,.audio-play:active{ transform:none !important; }
+}
+
+/* ── اصلاح کنتراست: متنِ آبی فقط برای لینک‌های متنیِ درون‌خطی، نه روی سطوح رنگی ── */
+a.ev-resume, a.ev-resume *, .review-strip, .review-strip *,
+.lesson-card *, .tool-card *, .grade-card *, .nav-link, .footer-btn, .footer-btn *,
+.btn-primary, .btn-secondary, .btn-check, .btn-practice{ color:inherit; }
+/* کارت ادامه و هر سطحِ سبز: متنِ سفیدِ خوانا */
+.ev-resume{ color:#fff !important; }
+.ev-resume .ev-r-kicker,.ev-resume .ev-r-title,.ev-resume .ev-r-sub{ color:#fff !important; }
+.ev-resume .ev-r-ic{ background:rgba(255,255,255,.22) !important; color:#fff !important; }
+.ev-resume .ev-r-arrow{ color:#fff !important; }
+/* فتودیکشنری/هدرهای سکشن‌دار: سطحِ تختِ سبز + متن سفید (نه گرادیانِ تیره) */
+.dict-section-head{ background:#58CC02 !important; color:#fff !important; }
+.dict-section-head *{ color:#fff !important; }
+.hero-title{ color:#3C3C3C !important; }
+/* لینکِ آبی فقط داخلِ متنِ بدنه (پاراگراف‌ها، تعاریف)، نه دکمه/کارت/نوار */
+.reading-para a, .definition a, .sl-example a, p a, li a{ color:#1CB0F6 !important; }
+
+/* ── مرورها: سبزِ ملایمِ Duo که دیده شود (نه سفیدِ نامرئی) ── */
+.review-strip{
+  background:#E8F9DC !important;
+  color:#3C3C3C !important;
+  border:2px solid #D7F0C2 !important;
+  border-right:5px solid #58CC02 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #D7F0C2 !important;
+}
+.review-strip:hover{ transform:translateY(-2px) !important; box-shadow:0 4px 0 #58CC02 !important; }
+.review-strip-title{ color:#256B14 !important; font-weight:800 !important; }
+.review-strip-fa{ color:#3A5226 !important; }
+.review-strip-icon{ background:#58CC02 !important; color:#fff !important; }
+.review-strip-arrow{ color:#256B14 !important; }
+.review-strip.done{ background:#58CC02 !important; border-color:#256B14 !important; border-right-color:#49AD00 !important; }
+.review-strip.done .review-strip-title{ color:#fff !important; }
+.review-strip.done .review-strip-fa{ color:rgba(255,255,255,.9) !important; }
+.review-strip.done .review-strip-arrow{ color:#fff !important; }
+.review-strip.done .review-strip-icon{ background:rgba(255,255,255,.25) !important; color:#fff !important; }
+.review-strip.done 
+/* ── نوارِ پایین لندینگِ هر پایه + همه‌ی گرادیان‌های باقی‌مانده → رنگِ ثابت ── */
+.photo-dict-link{ background:#58CC02 !important; color:#fff !important; }
+.photo-dict-link *{ color:#fff !important; }
+.alphabet-card{background:#F6F1E7 !important}
+.big-flashcard{background:#F6F1E7 !important}
+.big-flashcard.is-difficult{background:#FFF7E0 !important}
+.bilingual-en{background:#FFE8D6 !important}
+.bilingual-fa{background:#F6F1E7 !important}
+.book-cover{background:#F6F1E7 !important}
+.card-a{background:#F6F1E7 !important}
+.card-b{background:#FFF4E0 !important}
+.city-description-card{background:#E3F2FD !important}
+.classmate-row{background:#F6F1E7 !important}
+.context-box{background:#FFF8E7 !important}
+.conv-card{background:#fff !important}
+.conv-en .word.in-phrase{background:none !important}
+.conv-en .word.in-phrase:hover{background:#FFE8D6 !important}
+.country-number-card{background:#F6F1E7 !important}
+.crossword-card{background:#F6F1E7 !important}
+.cta-card{background:#1F3A5F !important}
+.day-card{background:#E67E2222 !important}
+.dialog-builder{background:#F6F1E7 !important}
+.envelope{background:#FFF7E0 !important}
+.examples-display-list{background:#FFE8D6 !important}
+.facts-box{background:#F6F1E7 !important}
+.flashcard.is-difficult{background:#FFFBF0 !important}
+.form-container{background:#F6F1E7 !important}
+.grade-card-10{background:#D7EBDF !important}
+.grade-card-11{background:#D9E6F2 !important}
+.grade-card-12{background:#F2DCE1 !important}
+.grade-card-7{background:#EDE4FB !important}
+.grade-card-8{background:#D5EBE0 !important}
+.grade-card-9{background:#FAE3D3 !important}
+.grade-card-banner{background:#EDE4D3 !important}
+.grammar-explanation{background:#FFF8DC !important}
+.grammar-table-title{background:#F6F1E7 !important}
+.health-phrases{background:#E8F5E9 !important}
+.hero-grid{background:rgba(26,24,20,0.12) !important}
+.hero-shape{background:#F6F1E7 !important}
+.hero-shape-2{background:#F4D89B !important}
+.id-card-form{background:#F6F1E7 !important}
+.image-country-card{background:#F6F1E7 !important}
+.image-flashcard{background:#F6F1E7 !important}
+.img-box.img-loading{background:#F2EBE0 !important}
+.intonation-falling{background:#E8F5E9 !important}
+.intonation-rising{background:#E1F5FE !important}
+.job-image-card{background:#F6F1E7 !important}
+.lesson-group-head{background:#F6F1E7 !important}
+.letter-bag{background:#FFE8D6 !important}
+.letter-practice-card{background:#F6F1E7 !important}
+.martyr-row{background:#D9E3CC !important}
+.melody-examples{background:#F6F1E7 !important}
+.msi-image-card{background:#FFE8D6 !important}
+.number-card{background:#27AE6022 !important}
+.number-tile{background:#27AE6033 !important}
+.occasion-card{background:#F6F1E7 !important}
+.page-header::after{background:#F4D89B !important}
+.page-header::before{background:#F6F1E7 !important}
+.pair-card{background:#F6F1E7 !important}
+.phrase-banner{background:#FFE8D6 !important}
+.poster-form-card{background:#F6F1E7 !important}
+.practice-card{background:#F6F1E7 !important}
+.practice-card.is-difficult{background:#FFF7E0 !important}
+.practice-statements{background:#FFF8E7 !important}
+.progress-card{background:#EDE4D3 !important}
+.pyramid-level{background:#F6F1E7 !important}
+.rc-passage{background:#E8F0FC !important}
+.reading-passage{background:#F8F4ED !important}
+.review-summary{background:#F6F1E7 !important}
+.role-card{background:#E3F2FD !important}
+.role-card-b{background:#FFF8E1 !important}
+.room-card{background:#F6F1E7 !important}
+.route-steps{background:#F6F1E7 !important}
+.security-q-card{background:#F3E5F5 !important}
+.see-also-card{background:#FFF8DC !important}
+.sidebar-progress{background:#F6F1E7 !important}
+.sl-example{background:#FFF8E7 !important}
+.sort-bucket.sort-boy{background:#F0F5FF !important}
+.sort-bucket.sort-girl{background:#FFF0F5 !important}
+.spelling-sample{background:#FFE8D6 !important}
+.strategy-box{background:#F6F1E7 !important}
+.talk-to-teacher{background:#FFF4E0 !important}
+.time-card{background:#9B59B622 !important}
+.time-sentence-row.is-example{background:#FFF8E7 !important}
+.tools-section::before{background:none !important}
+.visual-panel{background:#FFF8E7 !important}
+.vocab-card.is-difficult{background:#FFFBF0 !important}
+.vocab-result{background:#F6F1E7 !important}
+.wb-example-box{background:#D9E3CC !important}
+.word-tile{background:#F6F1E7 !important}
+.word-tile.checked{background:#D9E3CC !important}
+body{background:rgba(212,160,74,0.05) !important}
+
+/* ── FIX: هدر هم‌رنگ بدنه (حذف درز)، فوتر تیره‌تر، نوار پیشرفت خوانا ── */
+.hero{ background:transparent !important; }              /* هدر از بدنه ارث می‌برد، بدون درز */
+.footer,footer.footer{ background:#222019 !important; color:rgba(255,255,255,.55) !important; }
+/* نوار پیشرفت: پس‌زمینه‌ی روشن، پُرشدنِ سبز، درصد/متن خوانا */
+.progress-bar,.sidebar-progress,.vocab-progress{ background:#E3E6E8 !important; border-radius:9999px !important; }
+.progress-fill,.sidebar-progress-fill,.vocab-progress-fill{ background:#58CC02 !important; }
+.progress-num,.progress-percent,.vocab-progress-num,.sidebar-progress-num{ color:#3C3C3C !important; font-weight:800 !important; }
+.progress-label,.progress-title{ color:#3C3C3C !important; }
+/* دایره‌ی پیشرفت: عددِ تیره (نه سبزِ کم‌کنتراست) */
+.progress-circle-num{ color:#3C3C3C !important; }
+/* ── FIX: کنتراست — متنِ سبزِ کم‌خوان روی کارتِ روشن → سبزِ تیره‌ی خوانا ── */
+.vocab-word,.word-en,.match-en,.card-en,.pair-en,.dialog-en,
+.image-word-en,.bilingual-en .word,.classmate-en{ color:#256B14 !important; }
+/* نقل‌قول/آیه: متن انگلیسی تیره، منبع سبزِ تیره */
+.quote-en,.verse-en,.ayah-en,.reading-quote-en{ color:#3C3C3C !important; }
+.quote-source,.ayah-source,.verse-ref{ color:#256B14 !important; }
+/* شماره‌ی بزرگِ کارت درس (عکس ۶): سبزِ کم‌رنگ → خاکستریِ ملایم */
+.lesson-card-num{ color:#3C3C3C !important; opacity:.20 !important; }
+
+/* ───────────── FIX ROUND 2 ───────────── */
+
+/* #1: حذف لبه‌ی هدر/بدنه — hero و بلاب‌ها شفاف، هیچ سطحِ رنگیِ متفاوتی نماند */
+.hero{ background:transparent !important; }
+.hero-shape,.hero-shape-2{ display:none !important; }    /* بلاب‌های گرادیانی که درز می‌ساختند */
+.progress-section{ background:transparent !important; }
+
+/* #2: حلقه‌ی پیشرفت — مسیرِ خالی سفید/کرمِ روشن (نه خاکستریِ محو) */
+.progress-circle-track,.progress-circle-bg{ stroke:#FFFFFF !important; }
+circle.progress-circle-track{ stroke:#FFFFFF !important; }
+
+/* #3: کارت‌های پایه — گرادیان‌های اصلیِ per-grade */
+.grade-card-7 .grade-card-banner{background:linear-gradient(135deg,#EDE4FB 0%,#F8F4FF 100%) !important}
+.grade-card-8 .grade-card-banner{background:linear-gradient(135deg,#D5EBE0 0%,#EBF6F1 100%) !important}
+.grade-card-9 .grade-card-banner{background:linear-gradient(135deg,#FAE3D3 0%,#FEF1E8 100%) !important}
+.grade-card-10 .grade-card-banner{background:linear-gradient(135deg,#D7EBDF 0%,#ECF6F0 100%) !important}
+.grade-card-11 .grade-card-banner{background:linear-gradient(135deg,#D9E6F2 0%,#EDF4FA 100%) !important}
+.grade-card-12 .grade-card-banner{background:linear-gradient(135deg,#F2DCE1 0%,#FAEDF0 100%) !important}
+
+/* وقتی کاور آپلود شده، کاور اولویت دارد (قانون قبلی سرجاش) */
+
+/* #4 (کنتراست سراسری): متنِ سبزِ روشن روی سطح روشن → سبزِ تیره‌ی خوانا */
+.vocab-word,.word-en,.match-en,.card-en,.pair-en,.dialog-en,.image-word-en,
+.classmate-en,.bilingual-en .word,.alphabet-letter,.letter-big,.big-letter,
+.tool-name,.lesson-card-en,.review-strip-title,.section-eyebrow,
+.vocab-en,.flashcard-word,.pd-word,.dict-word,.word-title,
+.sound-letter,.number-en,.color-name-en{ color:#256B14 !important; }
+/* لینکِ ناوبریِ معمولی هم سبزِ تیره در هاور */
+.nav-link:hover{ color:#256B14 !important; }
+/* تبِ فعالِ ناوبری: پس‌زمینه‌ی سبزِ پُر، متن سفید (کنتراست خوب) */
+.nav-link.active{ background:#58CC02 !important; color:#fff !important; }
+
+/* #8: نوار پیشرفت سایدبار — درصد/متن خوانا + تیکِ بخشِ فعال واضح */
+.sidebar-progress,.vocab-progress{ background:#E3E6E8 !important; }
+.sidebar-progress-value,.sidebar-progress-num,.progress-percent{ color:#3C3C3C !important; font-weight:800 !important; }
+.sidebar-progress-fill{ background:#58CC02 !important; }
+/* تیکِ بخشِ فعال: روی پس‌زمینه‌ی سبزِ فعال، تیک سفیدِ واضح */
+.sidebar-item.active .sidebar-check,.tab-btn.active .check,
+.sidebar-item.active .check-icon,.sidebar-item.active .tick{
+  background:#fff !important; color:#256B14 !important; border-color:#fff !important;
+}
+.sidebar-item.active .sidebar-check svg,.sidebar-item.active .tick svg{ color:#256B14 !important; }
+
+/* #7 (Lumiare): لوگو با فونت Lumiare — یکدست در همه‌ی صفحات */
+.brand-glyph,.brand-mark{
+  width:40px !important; height:40px !important; border-radius:11px !important;
+  background:#58CC02 !important; color:#fff !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  font-family:'Lumiare',Georgia,serif !important; font-weight:normal !important;
+  font-size:1.35rem !important; line-height:1 !important; padding-top:2px !important;
+  box-shadow:0 3px 0 #49AD00 !important; flex-shrink:0 !important;
+}
+.brand span:not(.brand-glyph),.navbar-brand span:not(.brand-mark){
+  font-family:'Lumiare',Georgia,serif !important; font-weight:normal !important;
+  font-size:1.5rem !important; letter-spacing:.01em !important; color:#3C3C3C !important;
+  line-height:1 !important; padding-top:3px !important;
+}
+.brand,.navbar-brand{ display:inline-flex !important; align-items:center !important; gap:.55rem !important; text-decoration:none !important; }
+
+/* ── لوگوی آپلودی: اگر images/logo موجود باشد جای متن EV می‌نشیند ── */
+.ev-logo-img{ display:none; height:40px; width:auto; vertical-align:middle; }
+.ev-has-logo .brand-glyph,.ev-has-logo .brand-mark{ display:none !important; }
+.ev-has-logo .brand span:not(.brand-glyph),.ev-has-logo .navbar-brand span:not(.brand-mark){ display:none !important; }
+.ev-has-logo .ev-logo-img{ display:inline-block !important; }
+
+/* ── FIX: هدرِ صفحه‌ی درس هم‌رنگِ بدنه (حذف نوارِ کهربایی) ── */
+.page-header{ background:transparent !important; }
+.page-header::before,.page-header::after{ display:none !important; }
+
+/* ── FIX سراسری: جلوگیری از بیرون‌زدنِ محتوا از کادر (دسکتاپ + موبایل) ── */
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ overflow-x:hidden; max-width:100%; }
+img,video,svg,canvas{ max-width:100%; height:auto; }
+/* شکستِ رشته‌های طولانی (مسیر، لینک، کلمه‌ی بلند) تا از کادر بیرون نزنند */
+p,span,div,td,th,li,a,code,h1,h2,h3,h4,h5,h6,.vocab-word,.word-en,.definition,.reading-para{ overflow-wrap:break-word; word-wrap:break-word; }
+code,pre{ white-space:pre-wrap; word-break:break-word; }
+/* جدول‌ها از کادر بیرون نزنند */
+table{ max-width:100%; }
+.wb-table,.grammar-table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+/* ═══════════ /DUOLINGO ═══════════ */
+</style>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a class="top-nav-brand" href="index.html">📘 پایه هفتم<span class="brand-en">Prospect 1</span></a>
+    <button class="nav-menu-toggle" id="navMenuToggle" aria-label="منو">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div class="top-nav-links">
+      <a class="top-nav-link" href="../index.html">صفحه اصلی سایت</a>
+      <a class="top-nav-link" href="welcome.html">شروع (Welcome)</a>
+      <a class="top-nav-link" id="link-alphabet" href="tools.html?tool=alphabet">الفبا</a>
+      <a class="top-nav-link" id="link-numbers" href="tools.html?tool=numbers">اعداد</a>
+      <a class="top-nav-link" id="link-colors" href="tools.html?tool=colors">رنگ‌ها</a>
+      <a class="top-nav-link" href="flashcards.html">فلش‌کارت‌ها</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="../index.html">صفحه اصلی سایت</a><span class="sep">›</span><a href="index.html">پایه هفتم</a><span class="sep">›</span><span id="bcCurrent">ابزار</span>
+    </div>
+    <div class="page-tag" id="pageTag">🛠️ ابزار پایه‌ای</div>
+    <h1 class="page-title-en" id="pageTitleEn">Tool</h1>
+    <div class="page-title-fa" id="pageTitleFa">ابزار</div>
+    <p style="opacity:.9;font-size:.92rem;margin-top:.85rem;max-width:580px;line-height:1.7" id="pageDesc"></p>
+  </div>
+</div>
+
+<div class="main-content" id="mainContent"></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="lessons.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const tool = params.get('tool') || 'alphabet';
+
+// Highlight active nav
+const linkEl = document.getElementById('link-' + tool);
+if (linkEl) linkEl.classList.add('active');
+
+// Data
+const ALPHABET_DATA = [
+  {l:'Aa',ipa:'/eɪ/',fa:'«ای»',ex:'Ali, apple',vowel:true},
+  {l:'Bb',ipa:'/biː/',fa:'«بی»',ex:'Babak, book'},
+  {l:'Cc',ipa:'/siː/',fa:'«سی»',ex:'cat, cake'},
+  {l:'Dd',ipa:'/diː/',fa:'«دی»',ex:'dad, door'},
+  {l:'Ee',ipa:'/iː/',fa:'«ای»',ex:'Ehsan, egg',vowel:true},
+  {l:'Ff',ipa:'/ef/',fa:'«اف»',ex:'fan, fish'},
+  {l:'Gg',ipa:'/dʒiː/',fa:'«جی»',ex:'good, girl'},
+  {l:'Hh',ipa:'/eɪtʃ/',fa:'«اِیچ»',ex:'house, home'},
+  {l:'Ii',ipa:'/aɪ/',fa:'«آی»',ex:'Iran, ink',vowel:true},
+  {l:'Jj',ipa:'/dʒeɪ/',fa:'«جی»',ex:'job, juice'},
+  {l:'Kk',ipa:'/keɪ/',fa:'«کِی»',ex:'Karimi, key'},
+  {l:'Ll',ipa:'/el/',fa:'«اِل»',ex:'lion, lamp'},
+  {l:'Mm',ipa:'/em/',fa:'«اِم»',ex:'Mina, my'},
+  {l:'Nn',ipa:'/en/',fa:'«اِن»',ex:'name, Nasim'},
+  {l:'Oo',ipa:'/oʊ/',fa:'«اُو»',ex:'Omid, old',vowel:true},
+  {l:'Pp',ipa:'/piː/',fa:'«پی»',ex:'Pedram, pen'},
+  {l:'Qq',ipa:'/kjuː/',fa:'«کیو»',ex:'queen, quick'},
+  {l:'Rr',ipa:'/ɑːr/',fa:'«آر»',ex:'Reza, run'},
+  {l:'Ss',ipa:'/es/',fa:'«اِس»',ex:'Sara, sun'},
+  {l:'Tt',ipa:'/tiː/',fa:'«تی»',ex:'Tehran, tea'},
+  {l:'Uu',ipa:'/juː/',fa:'«یو»',ex:'Uncle, up',vowel:true},
+  {l:'Vv',ipa:'/viː/',fa:'«وی»',ex:'van, visit'},
+  {l:'Ww',ipa:'/ˈdʌbəljuː/',fa:'«دابلیو»',ex:'water, we'},
+  {l:'Xx',ipa:'/eks/',fa:'«اِکس»',ex:'box, X-ray'},
+  {l:'Yy',ipa:'/waɪ/',fa:'«وای»',ex:'yes, year'},
+  {l:'Zz',ipa:'/ziː/',fa:'«زی»',ex:'zoo, zip'}
+];
+
+const NUMBERS_DATA = [
+  {n:1,en:'one',fa:'یک'},{n:2,en:'two',fa:'دو'},{n:3,en:'three',fa:'سه'},{n:4,en:'four',fa:'چهار'},
+  {n:5,en:'five',fa:'پنج'},{n:6,en:'six',fa:'شش'},{n:7,en:'seven',fa:'هفت'},{n:8,en:'eight',fa:'هشت'},
+  {n:9,en:'nine',fa:'نه'},{n:10,en:'ten',fa:'ده'},{n:11,en:'eleven',fa:'یازده'},{n:12,en:'twelve',fa:'دوازده'},
+  {n:13,en:'thirteen',fa:'سیزده'},{n:14,en:'fourteen',fa:'چهارده'},{n:15,en:'fifteen',fa:'پانزده'},
+  {n:16,en:'sixteen',fa:'شانزده'},{n:17,en:'seventeen',fa:'هفده'},{n:18,en:'eighteen',fa:'هجده'},
+  {n:19,en:'nineteen',fa:'نوزده'},{n:20,en:'twenty',fa:'بیست'},
+  {n:30,en:'thirty',fa:'سی'},{n:40,en:'forty',fa:'چهل'},{n:50,en:'fifty',fa:'پنجاه'},
+  {n:60,en:'sixty',fa:'شصت'},{n:70,en:'seventy',fa:'هفتاد'},{n:80,en:'eighty',fa:'هشتاد'},
+  {n:90,en:'ninety',fa:'نود'},{n:100,en:'one hundred',fa:'صد'}
+];
+
+const COLORS_DATA = [
+  {name:'red',fa:'قرمز',hex:'#E74C3C',ipa:'/red/'},
+  {name:'blue',fa:'آبی',hex:'#3498DB',ipa:'/bluː/'},
+  {name:'yellow',fa:'زرد',hex:'#F1C40F',ipa:'/ˈjeloʊ/'},
+  {name:'green',fa:'سبز',hex:'#27AE60',ipa:'/ɡriːn/'},
+  {name:'white',fa:'سفید',hex:'#FFFFFF',ipa:'/waɪt/',darkText:true},
+  {name:'black',fa:'سیاه',hex:'#2C3E50',ipa:'/blæk/'},
+  {name:'orange',fa:'نارنجی',hex:'#E67E22',ipa:'/ˈɒrɪndʒ/'},
+  {name:'pink',fa:'صورتی',hex:'#FF9FF3',ipa:'/pɪŋk/',darkText:true},
+  {name:'gray',fa:'خاکستری',hex:'#95A5A6',ipa:'/ɡreɪ/'},
+  {name:'brown',fa:'قهوه‌ای',hex:'#8B4513',ipa:'/braʊn/'},
+  {name:'purple',fa:'بنفش',hex:'#9B59B6',ipa:'/ˈpɜːrpəl/'}
+];
+
+const DAYS_DATA = [
+  {en:'Sunday',fa:'یکشنبه',ipa:'/ˈsʌndeɪ/'},
+  {en:'Monday',fa:'دوشنبه',ipa:'/ˈmʌndeɪ/'},
+  {en:'Tuesday',fa:'سه‌شنبه',ipa:'/ˈtjuːzdeɪ/'},
+  {en:'Wednesday',fa:'چهارشنبه',ipa:'/ˈwenzdeɪ/'},
+  {en:'Thursday',fa:'پنج‌شنبه',ipa:'/ˈθɜːrzdeɪ/'},
+  {en:'Friday',fa:'جمعه',ipa:'/ˈfraɪdeɪ/'},
+  {en:'Saturday',fa:'شنبه',ipa:'/ˈsætərdeɪ/'}
+];
+
+const MONTHS_DATA_PERSIAN = [
+  {en:'Farvardin',fa:'فروردین'},{en:'Ordibehesht',fa:'اردیبهشت'},{en:'Khordad',fa:'خرداد'},
+  {en:'Tir',fa:'تیر'},{en:'Mordad',fa:'مرداد'},{en:'Shahrivar',fa:'شهریور'},
+  {en:'Mehr',fa:'مهر'},{en:'Aban',fa:'آبان'},{en:'Azar',fa:'آذر'},
+  {en:'Dey',fa:'دی'},{en:'Bahman',fa:'بهمن'},{en:'Esfand',fa:'اسفند'}
+];
+
+const TIME_EXAMPLES = [
+  {clock:"5:00",en:"It's five o'clock.",fa:'ساعت پنجه.'},
+  {clock:"7:30",en:"It's half past seven.",fa:'هفت و نیمه.'},
+  {clock:"3:15",en:"It's quarter past three.",fa:'یه ربع به سه گذشته.'},
+  {clock:"10:45",en:"It's quarter to eleven.",fa:'یه ربع به یازدهه.'},
+  {clock:"6:00 AM",en:"Six in the morning.",fa:'شش صبح.'},
+  {clock:"9:00 PM",en:"Nine in the evening.",fa:'نه شب.'}
+];
+
+const TOOLS = {
+  alphabet: {
+    titleEn: 'Alphabet',
+    titleFa: 'الفبای انگلیسی',
+    desc: 'الفبای انگلیسی شامل ۲۶ حرف است: ۵ حرف صدادار (a, e, i, o, u) و ۲۱ حرف بی‌صدا. هر حرف رو با تلفظ و مثال یاد بگیر.',
+    bcCurrent: 'الفبا',
+    tag: '🔤 الفبا',
+    render: () => `
+      <div class="tool-section">
+        <h3>The English Alphabet</h3>
+        <div class="head-fa">۲۶ حرف الفبای انگلیسی</div>
+        <div class="legend">
+          <span><span class="legend-dot" style="background:var(--accent)"></span>حروف صدادار (Vowels)</span>
+          <span><span class="legend-dot" style="background:var(--primary)"></span>حروف بی‌صدا (Consonants)</span>
+        </div>
+        <div class="alphabet-full">
+          ${ALPHABET_DATA.map(item => `
+            <div class="alphabet-card">
+              <div class="alphabet-display ${item.vowel ? 'color-vowel' : ''}">${item.l}</div>
+              <div class="alphabet-ipa">${item.ipa}</div>
+              <div class="alphabet-fa">${item.fa} تلفظ می‌شود</div>
+              <div class="alphabet-example">${item.ex}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `
+  },
+  
+  numbers: {
+    titleEn: 'Numbers',
+    titleFa: 'اعداد',
+    desc: 'اعداد ۱ تا ۱۰۰ به انگلیسی. اول اعداد ۱ تا ۲۰ رو یاد بگیر، بعد عدد‌های ده‌تایی رو.',
+    bcCurrent: 'اعداد',
+    tag: '🔢 اعداد',
+    render: () => `
+      <div class="tool-section">
+        <h3>Numbers 1-20</h3>
+        <div class="head-fa">اعداد یک تا بیست</div>
+        <div class="numbers-grid">
+          ${NUMBERS_DATA.filter(n => n.n <= 20).map(n => `
+            <div class="number-card">
+              <div class="number-card-num">${n.n}</div>
+              <div class="number-card-en">${n.en}</div>
+              <div class="number-card-fa">${n.fa}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="tool-section">
+        <h3>Tens (20-100)</h3>
+        <div class="head-fa">اعداد ده‌تایی از بیست تا صد</div>
+        <div class="numbers-grid">
+          ${NUMBERS_DATA.filter(n => n.n >= 20 && n.n <= 100).map(n => `
+            <div class="number-card">
+              <div class="number-card-num">${n.n}</div>
+              <div class="number-card-en">${n.en}</div>
+              <div class="number-card-fa">${n.fa}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `
+  },
+  
+  colors: {
+    titleEn: 'Colors',
+    titleFa: 'رنگ‌ها',
+    desc: 'رنگ‌های اصلی به زبان انگلیسی. این رنگ‌ها در درس ۵ (My Appearance) دوباره استفاده می‌شن.',
+    bcCurrent: 'رنگ‌ها',
+    tag: '🎨 رنگ‌ها',
+    render: () => `
+      <div class="tool-section">
+        <h3>Basic Colors</h3>
+        <div class="head-fa">رنگ‌های اصلی</div>
+        <div class="colors-full">
+          ${COLORS_DATA.map(c => `
+            <div class="color-card">
+              <div class="color-card-swatch" style="background:${c.hex};${c.darkText ? 'color:#333;text-shadow:none' : ''}">${c.name}</div>
+              <div class="color-card-info">
+                <div class="color-card-en">${c.name}</div>
+                <div class="color-card-fa">${c.fa} · <span style="font-family:var(--font-en);direction:ltr">${c.ipa}</span></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `
+  },
+  
+  days: {
+    titleEn: 'Days & Months',
+    titleFa: 'روزها و ماه‌ها',
+    desc: 'روزهای هفته به انگلیسی و ماه‌های شمسی به‌صورت لاتین.',
+    bcCurrent: 'روزها و ماه‌ها',
+    tag: '📅 روزها و ماه‌ها',
+    render: () => `
+      <div class="tool-section">
+        <h3>Days of the Week</h3>
+        <div class="head-fa">روزهای هفته</div>
+        <div class="days-grid">
+          ${DAYS_DATA.map(d => `
+            <div class="day-card">
+              <div class="day-card-en">${d.en}</div>
+              <div class="day-card-fa">${d.fa}</div>
+              <div class="day-card-ipa">${d.ipa}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="tool-section">
+        <h3>Persian Months</h3>
+        <div class="head-fa">ماه‌های شمسی به انگلیسی</div>
+        <div class="days-grid">
+          ${MONTHS_DATA_PERSIAN.map(m => `
+            <div class="day-card">
+              <div class="day-card-en">${m.en}</div>
+              <div class="day-card-fa">${m.fa}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `
+  },
+  
+  time: {
+    titleEn: 'Telling Time',
+    titleFa: 'گفتن ساعت',
+    desc: 'یاد بگیر چطور ساعت رو به انگلیسی بگی. این بخش در درس ۷ (My Address) به‌کار می‌آد.',
+    bcCurrent: 'ساعت و زمان',
+    tag: '⏰ ساعت',
+    render: () => `
+      <div class="tool-section">
+        <h3>Telling the Time</h3>
+        <div class="head-fa">گفتن ساعت</div>
+        <div class="time-section">
+          ${TIME_EXAMPLES.map(t => `
+            <div class="time-card">
+              <div class="clock">${t.clock}</div>
+              <div class="time-card-en">${t.en}</div>
+              <div class="time-card-fa">${t.fa}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `
+  }
+};
+
+// Render selected tool
+const selected = TOOLS[tool] || TOOLS.alphabet;
+document.getElementById('pageTitle').textContent = `${selected.titleEn} — پایه هفتم`;
+document.getElementById('pageTitleEn').textContent = selected.titleEn;
+document.getElementById('pageTitleFa').textContent = selected.titleFa;
+document.getElementById('pageDesc').textContent = selected.desc;
+document.getElementById('bcCurrent').textContent = selected.bcCurrent;
+document.getElementById('pageTag').textContent = selected.tag;
+document.getElementById('mainContent').innerHTML = selected.render();
+</script>
+
+<script>
+// Mobile menu toggle
+(function(){
+  const toggle = document.getElementById('navMenuToggle');
+  const links = document.querySelector('.top-nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+    });
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.top-nav')) {
+        links.classList.remove('open');
+      }
+    });
+  }
+})();
+</script>
+<script src="../ev-tts-image.js"></script>
+<script>
+/* لوگوی آپلودی: اگر images/logo.* موجود باشد، جای متنِ EV نشان داده می‌شود */
+(function(){
+  var brands=document.querySelectorAll('.brand,.navbar-brand');
+  if(!brands.length) return;
+  // عمقِ مسیر: چند پوشه از ریشه فاصله داریم؟ (لندینگ=0، gradeN=1)
+  var depth=(location.pathname.match(/grade\d+\//)?1:0);
+  var prefix='../'.repeat(depth);
+  var exts=['png','jpg','jpeg','webp','svg'];
+  var i=0;
+  function tryNext(){
+    if(i>=exts.length) return;
+    var src=prefix+'images/logo.'+exts[i];
+    var probe=new Image();
+    probe.onload=function(){
+      brands.forEach(function(b){
+        if(b.querySelector('.ev-logo-img')) return;
+        var img=document.createElement('img');
+        img.src=src; img.alt='English Vision'; img.className='ev-logo-img';
+        b.insertBefore(img,b.firstChild);
+        b.classList.add('ev-has-logo');
+      });
+      document.documentElement.classList.add('ev-has-logo');
+    };
+    probe.onerror=function(){ i++; tryNext(); };
+    probe.src=src;
+  }
+  tryNext();
+})();
+</script>
+<script defer src="../admin/hit.js"></script>
+</body>
+</html>

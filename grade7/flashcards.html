@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فلش‌کارت‌ها — پایه هفتم</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.main-content{max-width:1280px;margin:0 auto;padding:1.5rem 1.5rem 4rem;position:relative;z-index:5}
+
+/* Stats overview */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{
+  background:#fff;border:1px solid var(--border-light);border-radius:var(--radius-lg);
+  padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;
+}
+.stat-card-icon{
+  width:48px;height:48px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.4rem;flex-shrink:0;
+}
+.stat-card-icon.lesson{background:var(--primary-ghost);color:var(--primary)}
+.stat-card-icon.saved{background:#FCE9F3;color:#A33B6E}
+.stat-card-icon.difficult{background:#FFF7E0;color:#8B5C0F}
+.stat-card-info{flex:1}
+.stat-card-num{font-family:var(--font-en);font-size:1.85rem;font-weight:700;color:var(--text-dark);line-height:1}
+.stat-card-label{font-size:.82rem;color:var(--text-mid);margin-top:.25rem}
+
+/* Filter tabs */
+.filter-bar{
+  background:#fff;border:1px solid var(--border-light);border-radius:var(--radius-lg);
+  padding:1rem 1.5rem;margin-bottom:1.5rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+}
+.filter-tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+.filter-tab{
+  padding:.55rem 1.1rem;background:var(--bg-soft);border:1px solid var(--border-light);
+  border-radius:99px;cursor:pointer;font-family:var(--font-fa);font-size:.85rem;
+  color:var(--text-mid);transition:all .2s;display:flex;align-items:center;gap:.4rem;
+}
+.filter-tab:hover{border-color:var(--primary-pale);color:var(--primary)}
+.filter-tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.filter-tab .count{font-family:var(--font-en);font-size:.7rem;background:rgba(255,255,255,0.25);padding:0 .55rem;border-radius:99px}
+.filter-tab:not(.active) .count{background:#fff;color:var(--text-soft)}
+
+.start-practice-btn{
+  padding:.7rem 1.4rem;background:var(--accent);color:#fff;border:none;border-radius:8px;
+  cursor:pointer;font-family:var(--font-fa);font-size:.85rem;font-weight:600;
+  display:flex;align-items:center;gap:.5rem;transition:all .2s;
+}
+.start-practice-btn:hover{background:#D88B19;transform:translateY(-1px);box-shadow:var(--shadow)}
+.start-practice-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* Lesson groups */
+.lesson-group{margin-bottom:2rem}
+.lesson-group-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:.85rem;padding:.75rem 1rem;
+  background:linear-gradient(135deg,var(--primary-ghost) 0%,#fff 100%);
+  border-radius:var(--radius);border-right:4px solid var(--primary);
+}
+.lesson-group-info{display:flex;align-items:center;gap:.85rem}
+.lesson-group-num{
+  font-family:var(--font-display);font-size:1.5rem;color:var(--primary);font-weight:700;
+  width:38px;height:38px;background:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.lesson-group-title{font-weight:700;color:var(--text-dark);font-size:1rem;font-family:var(--font-display);direction:ltr;text-align:left}
+.lesson-group-fa{font-size:.78rem;color:var(--text-mid);margin-top:.15rem}
+.lesson-group-count{font-size:.78rem;color:var(--text-soft)}
+
+.flashcard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.85rem}
+.flashcard{
+  background:#fff;border:1px solid var(--border-light);border-radius:var(--radius);
+  padding:1.15rem 1.15rem 1rem;cursor:pointer;transition:all .2s;
+  position:relative;perspective:1000px;
+}
+.flashcard:hover{border-color:var(--primary-pale);box-shadow:var(--shadow);transform:translateY(-2px)}
+.flashcard.is-difficult{border-color:#F4D89B;background:linear-gradient(180deg,#FFFBF0 0%,#fff 100%)}
+.flashcard.flipped .fc-front{display:none}
+.flashcard.flipped .fc-back{display:block}
+.fc-front .fc-word{font-family:var(--font-en);font-size:1.3rem;font-weight:700;color:var(--primary);direction:ltr;margin-bottom:.15rem;text-align:left}
+.fc-front .fc-pos{display:inline-block;font-size:.62rem;color:var(--text-soft);background:var(--bg-soft);padding:2px 7px;border-radius:99px;margin-right:.4rem;font-family:var(--font-en);text-transform:uppercase;letter-spacing:.05em}
+.fc-front .fc-ipa{font-family:var(--font-en);font-size:.78rem;color:var(--text-mid);direction:ltr;margin-bottom:.45rem;text-align:left}
+.fc-back{display:none;font-size:1.05rem;color:var(--text-dark);font-weight:500;text-align:right;padding:.5rem 0}
+.fc-back .fc-back-example{font-size:.78rem;color:var(--text-soft);font-style:italic;direction:ltr;font-family:var(--font-en);line-height:1.5;text-align:left;margin-top:.5rem}
+.fc-actions{display:flex;gap:.4rem;margin-top:.75rem;padding-top:.65rem;border-top:1px dashed var(--border-light)}
+.fc-action-btn{
+  flex:1;padding:.4rem .55rem;background:var(--bg-soft);border:1px solid var(--border-light);
+  border-radius:6px;cursor:pointer;font-family:var(--font-fa);font-size:.7rem;
+  color:var(--text-mid);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.3rem;
+}
+.fc-action-btn:hover{border-color:var(--primary-pale);color:var(--primary)}
+.fc-action-btn.flip-btn{flex:0 0 auto;padding:.4rem .8rem}
+.fc-action-btn.danger:hover{border-color:#E8B0B0;color:var(--danger)}
+
+/* Empty state */
+.empty-state{
+  background:#fff;border:1px solid var(--border-light);border-radius:var(--radius-lg);
+  padding:3rem 2rem;text-align:center;
+}
+.empty-state-icon{font-size:3.5rem;margin-bottom:1rem;opacity:.4}
+.empty-state h3{font-size:1.1rem;color:var(--text-dark);margin-bottom:.5rem}
+.empty-state p{font-size:.88rem;color:var(--text-mid);line-height:1.7;max-width:450px;margin:0 auto 1.25rem}
+
+/* Practice mode (modal) */
+.practice-modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;
+  display:none;align-items:center;justify-content:center;padding:1rem;
+}
+.practice-modal-overlay.show{display:flex;animation:fadeInUp .25s}
+.practice-modal{
+  background:#fff;border-radius:var(--radius-lg);max-width:540px;width:100%;
+  padding:2rem;position:relative;box-shadow:var(--shadow-lg);
+}
+.practice-modal-close{
+  position:absolute;top:1rem;left:1rem;background:var(--bg-soft);border:none;
+  width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;color:var(--text-mid);font-size:1.1rem;
+}
+.practice-modal-close:hover{background:var(--border-light)}
+.practice-progress{
+  font-size:.82rem;color:var(--text-mid);text-align:center;margin-bottom:1rem;
+  font-family:var(--font-en);direction:ltr;
+}
+.practice-progress-bar{height:4px;background:var(--border-light);border-radius:99px;overflow:hidden;margin-bottom:2rem}
+.practice-progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.practice-card{
+  min-height:280px;background:linear-gradient(135deg,var(--primary-ghost) 0%,#fff 100%);
+  border:1px solid var(--primary-pale);border-radius:var(--radius);
+  padding:2rem;display:flex;flex-direction:column;justify-content:center;
+  text-align:center;cursor:pointer;
+}
+.practice-card.is-difficult{border-color:#F4D89B;background:linear-gradient(135deg,#FFF7E0 0%,#fff 100%)}
+.practice-word{font-family:var(--font-en);font-size:2.5rem;font-weight:700;color:var(--primary);direction:ltr;margin-bottom:.5rem;line-height:1.1}
+.practice-pos{display:inline-block;font-size:.7rem;color:var(--text-soft);background:#fff;padding:3px 10px;border-radius:99px;margin-bottom:.85rem;font-family:var(--font-en);text-transform:uppercase}
+.practice-ipa{font-family:var(--font-en);font-size:1.05rem;color:var(--text-mid);direction:ltr;margin-bottom:.85rem}
+.practice-tap-hint{font-size:.82rem;color:var(--text-soft);margin-top:.85rem;display:block}
+.practice-card.flipped .practice-word{font-family:var(--font-fa);font-size:1.85rem;color:var(--text-dark);direction:rtl}
+.practice-card.flipped .practice-tap-hint{display:none}
+.practice-card.flipped .practice-back{display:block}
+.practice-back{display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-light)}
+.practice-back-example{font-size:.85rem;color:var(--text-mid);font-style:italic;direction:ltr;font-family:var(--font-en)}
+.practice-actions{margin-top:1.25rem;display:flex;gap:.5rem;justify-content:center}
+.practice-btn{
+  padding:.7rem 1.5rem;border:1px solid var(--border-light);border-radius:8px;
+  cursor:pointer;font-family:var(--font-fa);font-size:.85rem;background:#fff;
+  color:var(--text-dark);transition:all .2s;
+}
+.practice-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.practice-btn.knew{border-color:var(--success);color:var(--success);background:var(--success-bg)}
+.practice-btn.didnt-know{border-color:var(--danger);color:var(--danger);background:var(--danger-bg)}
+
+/* Result screen */
+.practice-result{text-align:center;padding:2rem 0}
+.practice-result-icon{font-size:4rem;margin-bottom:1rem}
+.practice-result h3{font-size:1.4rem;color:var(--text-dark);margin-bottom:.75rem}
+.practice-result-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;
+  background:var(--bg-soft);border-radius:var(--radius);padding:1.25rem;
+}
+.practice-result-stat-num{font-family:var(--font-en);font-size:2rem;font-weight:700}
+.practice-result-stat-num.knew{color:var(--success)}
+.practice-result-stat-num.didnt-know{color:var(--danger)}
+.practice-result-stat-label{font-size:.78rem;color:var(--text-mid);margin-top:.15rem}
+
+@media (max-width:900px){
+  .stats-row{grid-template-columns:repeat(2,1fr);gap:.75rem}
+  .stat-card{padding:.85rem 1rem}
+  .stat-card-icon{width:36px;height:36px;font-size:1rem}
+  .stat-card-num{font-size:1.5rem}
+  .stat-card-label{font-size:.75rem}
+  .flashcard-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.65rem}
+  .flashcard{padding:.85rem .9rem}
+  .practice-modal{padding:1.5rem}
+  .practice-word{font-size:2rem}
+}
+@media (max-width:600px){
+  .main-content{padding:1rem 1rem 2.5rem}
+  .stats-row{grid-template-columns:repeat(3,1fr);gap:.5rem}
+  .stat-card{flex-direction:column;text-align:center;gap:.4rem;padding:.75rem .5rem}
+  .stat-card-icon{margin:0 auto}
+  .stat-card-num{font-size:1.3rem}
+  .stat-card-label{font-size:.7rem}
+  .flashcard-grid{grid-template-columns:1fr 1fr;gap:.5rem}
+  .flashcard{padding:.7rem;min-height:90px}
+  .filter-bar{padding:.65rem .75rem;flex-wrap:wrap;gap:.4rem}
+  .practice-modal{padding:1.25rem;max-width:95vw}
+  .practice-word{font-size:1.6rem}
+  .practice-card{min-height:220px;padding:1.5rem}
+}
+@media (max-width:420px){
+  .stats-row{grid-template-columns:1fr 1fr;gap:.5rem}
+  .flashcard-grid{grid-template-columns:1fr}
+}
+
+/* یکدستی فونت */
+input,button,select,textarea{font-family:inherit}
+code{font-family:var(--font-fa,inherit);font-size:.9em;background:rgba(0,0,0,.055);padding:1px 7px;border-radius:6px;display:inline-block;unicode-bidi:plaintext}
+
+/* استاندارد جهت‌ها */
+[class*="-en"]:not([class*="-end"]):not([class*="-entry"]){direction:ltr;unicode-bidi:isolate}
+.wb-input,input[type="text"],textarea{direction:ltr;text-align:left;unicode-bidi:plaintext}
+
+/* ═══════════ DUOLINGO — حذف این بلوک = برگشت کامل ═══════════ */
+:root{
+  /* بازتعریفِ توکن‌های هویتی → پالت Duolingo (سراسری) */
+  --accent:#58CC02 !important;
+  --accent-light:#E8F9DC !important;
+  --accent-glow:#E8F9DC !important;
+  --primary:#58CC02 !important;
+  --primary-light:#49AD00 !important;
+  --primary-pale:#D7F0C2 !important;
+  --primary-ghost:#EAF7E0 !important;
+  --ink:#3C3C3C !important;
+  --ink-light:#777777 !important;
+  --text-soft:#777777 !important;
+  --green:#58CC02 !important;
+  --border:#E5E5E5 !important;
+  --border-light:#E5E5E5 !important;
+  --paper:#FFFFFF !important;
+  --paper-warm:#FFFFFF !important;
+  --paper-cream:#F7F7F7 !important;
+  /* توکن‌های اختصاصی این تم */
+  --du-g:#58CC02; --du-gh:#49AD00; --du-gs:#58A700;
+  --du-blue:#1CB0F6; --du-yel:#FFC800; --du-red:#FF4B4B; --du-pur:#CE82FF; --du-orange:#FF9600;
+  --du-ink:#3C3C3C; --du-mut:#777777; --du-border:#E5E5E5; --du-s1:#F7F7F7;
+  --du-r-sm:8px; --du-r-md:12px; --du-r-lg:20px; --du-r-xl:28px;
+  --du-ease:cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── سطح و متنِ ضخیم (Duo هیچ‌جا نازک نیست) ── */
+body{ background:#FFFFFF !important; color:#3C3C3C !important; }
+body,p,span,div,a,li,td,th,label,button,input{ font-weight:700; }
+h1,h2,h3,h4,.lesson-card-en,.grade-card-title,.section-title,.header-title{
+  font-weight:800 !important; letter-spacing:-.01em !important;
+}
+.lesson-card-fa,.review-strip-fa,.section-desc,.lesson-card-desc{ font-weight:700 !important; }
+
+/* ── کارت‌ها: خطِ ضخیم + سایه‌ی فیزیکیِ پایین (نه سایه‌ی نرم) ── */
+.lesson-card,.grade-card,.tool-card{
+  border:2px solid #E5E5E5 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important;
+  transition:transform .12s var(--du-ease), box-shadow .12s, border-color .12s !important;
+}
+.lesson-card:hover,.grade-card:hover,.tool-card:hover{
+  transform:translateY(-2px) !important;
+  border-color:#58CC02 !important;
+  box-shadow:0 4px 0 #CFE8BA !important;
+}
+.lesson-card::before{ background:#58CC02 !important; height:5px !important; }
+
+/* بنرِ کارت درس: سطحِ روشن، شماره و آیکن درشت */
+.lesson-card-banner{ background:#F7F7F7 !important; border-bottom:2px solid #E5E5E5 !important; padding:1.3rem 1.3rem 1rem !important; }
+.lesson-card-num{ color:#3C3C3C !important; opacity:.22 !important; font-weight:800 !important; }
+.lesson-card-icon{ opacity:.85 !important; font-size:1.7rem !important; }
+
+/* ── نوار مرور: کاشیِ ضخیمِ سبز-لهجه، سایه‌ی فیزیکی ── */
+.review-strip{
+  background:#FFFFFF !important;
+  color:#3C3C3C !important;
+  border:2px solid #E5E5E5 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important;
+  transition:transform .12s var(--du-ease), box-shadow .12s !important;
+}
+.review-strip:hover{ transform:translateY(-2px) !important; box-shadow:0 4px 0 #CFE8BA !important; border-color:#58CC02 !important; }
+.review-strip-title{ color:#3C3C3C !important; font-weight:800 !important; }
+.review-strip-fa{ color:#777777 !important; }
+.review-strip-icon{ background:#E8F9DC !important; color:#256B14 !important; border-radius:var(--du-r-md) !important; }
+.review-strip-arrow{ color:#256B14 !important; }
+.review-strip.done{ background:#E8F9DC !important; border-color:#58CC02 !important; }
+.review-strip.done .review-strip-title{ color:#fff !important; }
+.review-strip.done .review-strip-icon{ background:#58CC02 !important; color:#fff !important; }
+
+/* ── دکمه‌ی اصلی = CTA سه‌بعدیِ Duo که با کلیک فرو می‌رود ── */
+.btn-primary,.btn-check,.footer-btn.next,.audio-play{
+  background:#58CC02 !important; color:#fff !important;
+  border:none !important; border-radius:var(--du-r-md) !important;
+  box-shadow:0 4px 0 #58A700 !important;
+  font-weight:800 !important; text-transform:none !important;
+  transition:transform .08s, box-shadow .08s, background .12s !important;
+}
+.btn-primary:hover,.btn-check:hover,.footer-btn.next:hover{ background:#49AD00 !important; }
+.btn-primary:active,.btn-check:active,.footer-btn.next:active,.audio-play:active{
+  transform:translateY(4px) !important; box-shadow:0 0 0 #58A700 !important;
+}
+/* دکمه‌ی ثانویه = کاشیِ سفیدِ خط‌ضخیم با سایه‌ی فیزیکی */
+.btn-secondary,.btn-practice,.footer-btn.prev{
+  background:#fff !important; color:#3C3C3C !important;
+  border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important; font-weight:800 !important;
+  transition:transform .08s, box-shadow .08s !important;
+}
+.btn-secondary:active,.btn-practice:active,.footer-btn.prev:active{ transform:translateY(2px) !important; box-shadow:0 0 0 #E5E5E5 !important; }
+.audio-play{ border-radius:50% !important; }
+
+/* ── نوار XP/پیشرفت: پیلِ سبزِ پُر ── */
+.progress-fill,.vocab-progress-fill,.sidebar-progress-fill,.ev-card-progress > i,
+.progress-bar-fill,[class*="progress"] [class*="fill"]{
+  background:#58CC02 !important; border-radius:9999px !important;
+}
+.progress-bar,.ev-card-progress{ border-radius:9999px !important; background:#EBEBEB !important; }
+.progress-circle{ color:#58CC02 !important; }
+
+/* ── ناوبری: تبِ فعال سبزِ پُر، گرد ── */
+.nav-link.active{ background:#58CC02 !important; color:#fff !important; border-radius:var(--du-r-md) !important; box-shadow:0 3px 0 #58A700 !important; }
+.nav-link:hover{ color:#256B14 !important; }
+.brand-glyph{ background:#58CC02 !important; color:#fff !important; border-radius:var(--du-r-md) !important; box-shadow:0 3px 0 #58A700 !important; }
+
+/* ── لینک/های‌لایتِ ثانویه = آبیِ Duo ── */
+.sl-highlight,.word.highlight,mark:not(.ev-highlight){ background:#D7F0FF !important; color:#3C3C3C !important; border-radius:6px !important; }
+
+/* ── سایدبارِ درس: کاشیِ خط‌ضخیم، آیتم فعال سبز ── */
+.sidebar{ border:2px solid #E5E5E5 !important; border-radius:var(--du-r-lg) !important; box-shadow:0 2px 0 #E5E5E5 !important; }
+.sidebar-item.active,.tab-btn.active{ background:#E8F9DC !important; color:#256B14 !important; border-radius:var(--du-r-md) !important; font-weight:800 !important; }
+.sidebar-item.active .sidebar-icon{ color:#256B14 !important; }
+
+/* ── کارت‌های محتوا ── */
+.conv-card,.quiz-card,.practice-statements,.visual-panel,.sl-example,.rc-passage,.progress-card{
+  border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important; box-shadow:0 2px 0 #E5E5E5 !important;
+}
+.audio-bar{ border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important; }
+
+/* ── پیل/برچسب‌ها + برچسبِ زنده ── */
+.badge,.pill,.tag,.chip{ border-radius:9999px !important; font-weight:800 !important; }
+.badge-live,.status-live,.live-badge{ background:#FF9600 !important; color:#fff !important; }
+
+/* ── کتاب‌های hero: سایه‌ی فیزیکیِ درشت ── */
+.tome{ box-shadow:0 8px 0 rgba(0,0,0,.12), 0 16px 32px -12px rgba(0,0,0,.25) !important; }
+
+/* ── ناوبری چسبان ── */
+.nav,.top-nav{ background:rgba(255,255,255,.92) !important; border-bottom:2px solid #E5E5E5 !important; }
+
+/* ── احترام به کاهشِ حرکت: فنریت/پرش خاموش ── */
+@media (prefers-reduced-motion: reduce){
+  .lesson-card,.grade-card,.tool-card,.review-strip,
+  .btn-primary,.btn-check,.btn-secondary,.btn-practice,.footer-btn,.audio-play{
+    transition:none !important;
+  }
+  .lesson-card:hover,.grade-card:hover,.tool-card:hover,.review-strip:hover{ transform:none !important; }
+  .btn-primary:active,.btn-check:active,.footer-btn.next:active,
+  .btn-secondary:active,.btn-practice:active,.footer-btn.prev:active,.audio-play:active{ transform:none !important; }
+}
+
+/* ── اصلاح کنتراست: متنِ آبی فقط برای لینک‌های متنیِ درون‌خطی، نه روی سطوح رنگی ── */
+a.ev-resume, a.ev-resume *, .review-strip, .review-strip *,
+.lesson-card *, .tool-card *, .grade-card *, .nav-link, .footer-btn, .footer-btn *,
+.btn-primary, .btn-secondary, .btn-check, .btn-practice{ color:inherit; }
+/* کارت ادامه و هر سطحِ سبز: متنِ سفیدِ خوانا */
+.ev-resume{ color:#fff !important; }
+.ev-resume .ev-r-kicker,.ev-resume .ev-r-title,.ev-resume .ev-r-sub{ color:#fff !important; }
+.ev-resume .ev-r-ic{ background:rgba(255,255,255,.22) !important; color:#fff !important; }
+.ev-resume .ev-r-arrow{ color:#fff !important; }
+/* فتودیکشنری/هدرهای سکشن‌دار: سطحِ تختِ سبز + متن سفید (نه گرادیانِ تیره) */
+.dict-section-head{ background:#58CC02 !important; color:#fff !important; }
+.dict-section-head *{ color:#fff !important; }
+.hero-title{ color:#3C3C3C !important; }
+/* لینکِ آبی فقط داخلِ متنِ بدنه (پاراگراف‌ها، تعاریف)، نه دکمه/کارت/نوار */
+.reading-para a, .definition a, .sl-example a, p a, li a{ color:#1CB0F6 !important; }
+
+/* ── مرورها: سبزِ ملایمِ Duo که دیده شود (نه سفیدِ نامرئی) ── */
+.review-strip{
+  background:#E8F9DC !important;
+  color:#3C3C3C !important;
+  border:2px solid #D7F0C2 !important;
+  border-right:5px solid #58CC02 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #D7F0C2 !important;
+}
+.review-strip:hover{ transform:translateY(-2px) !important; box-shadow:0 4px 0 #58CC02 !important; }
+.review-strip-title{ color:#256B14 !important; font-weight:800 !important; }
+.review-strip-fa{ color:#3A5226 !important; }
+.review-strip-icon{ background:#58CC02 !important; color:#fff !important; }
+.review-strip-arrow{ color:#256B14 !important; }
+.review-strip.done{ background:#58CC02 !important; border-color:#256B14 !important; border-right-color:#49AD00 !important; }
+.review-strip.done .review-strip-title{ color:#fff !important; }
+.review-strip.done .review-strip-fa{ color:rgba(255,255,255,.9) !important; }
+.review-strip.done .review-strip-arrow{ color:#fff !important; }
+.review-strip.done .review-strip-icon{ background:rgba(255,255,255,.25) !important; color:#fff !important; }
+.review-strip.done 
+/* ── نوارِ پایین لندینگِ هر پایه + همه‌ی گرادیان‌های باقی‌مانده → رنگِ ثابت ── */
+.photo-dict-link{ background:#58CC02 !important; color:#fff !important; }
+.photo-dict-link *{ color:#fff !important; }
+.alphabet-card{background:#F6F1E7 !important}
+.big-flashcard{background:#F6F1E7 !important}
+.big-flashcard.is-difficult{background:#FFF7E0 !important}
+.bilingual-en{background:#FFE8D6 !important}
+.bilingual-fa{background:#F6F1E7 !important}
+.book-cover{background:#F6F1E7 !important}
+.card-a{background:#F6F1E7 !important}
+.card-b{background:#FFF4E0 !important}
+.city-description-card{background:#E3F2FD !important}
+.classmate-row{background:#F6F1E7 !important}
+.context-box{background:#FFF8E7 !important}
+.conv-card{background:#fff !important}
+.conv-en .word.in-phrase{background:none !important}
+.conv-en .word.in-phrase:hover{background:#FFE8D6 !important}
+.country-number-card{background:#F6F1E7 !important}
+.crossword-card{background:#F6F1E7 !important}
+.cta-card{background:#1F3A5F !important}
+.day-card{background:#E67E2222 !important}
+.dialog-builder{background:#F6F1E7 !important}
+.envelope{background:#FFF7E0 !important}
+.examples-display-list{background:#FFE8D6 !important}
+.facts-box{background:#F6F1E7 !important}
+.flashcard.is-difficult{background:#FFFBF0 !important}
+.form-container{background:#F6F1E7 !important}
+.grade-card-10{background:#D7EBDF !important}
+.grade-card-11{background:#D9E6F2 !important}
+.grade-card-12{background:#F2DCE1 !important}
+.grade-card-7{background:#EDE4FB !important}
+.grade-card-8{background:#D5EBE0 !important}
+.grade-card-9{background:#FAE3D3 !important}
+.grade-card-banner{background:#EDE4D3 !important}
+.grammar-explanation{background:#FFF8DC !important}
+.grammar-table-title{background:#F6F1E7 !important}
+.health-phrases{background:#E8F5E9 !important}
+.hero-grid{background:rgba(26,24,20,0.12) !important}
+.hero-shape{background:#F6F1E7 !important}
+.hero-shape-2{background:#F4D89B !important}
+.id-card-form{background:#F6F1E7 !important}
+.image-country-card{background:#F6F1E7 !important}
+.image-flashcard{background:#F6F1E7 !important}
+.img-box.img-loading{background:#F2EBE0 !important}
+.intonation-falling{background:#E8F5E9 !important}
+.intonation-rising{background:#E1F5FE !important}
+.job-image-card{background:#F6F1E7 !important}
+.lesson-group-head{background:#F6F1E7 !important}
+.letter-bag{background:#FFE8D6 !important}
+.letter-practice-card{background:#F6F1E7 !important}
+.martyr-row{background:#D9E3CC !important}
+.melody-examples{background:#F6F1E7 !important}
+.msi-image-card{background:#FFE8D6 !important}
+.number-card{background:#27AE6022 !important}
+.number-tile{background:#27AE6033 !important}
+.occasion-card{background:#F6F1E7 !important}
+.page-header::after{background:#F4D89B !important}
+.page-header::before{background:#F6F1E7 !important}
+.pair-card{background:#F6F1E7 !important}
+.phrase-banner{background:#FFE8D6 !important}
+.poster-form-card{background:#F6F1E7 !important}
+.practice-card{background:#F6F1E7 !important}
+.practice-card.is-difficult{background:#FFF7E0 !important}
+.practice-statements{background:#FFF8E7 !important}
+.progress-card{background:#EDE4D3 !important}
+.pyramid-level{background:#F6F1E7 !important}
+.rc-passage{background:#E8F0FC !important}
+.reading-passage{background:#F8F4ED !important}
+.review-summary{background:#F6F1E7 !important}
+.role-card{background:#E3F2FD !important}
+.role-card-b{background:#FFF8E1 !important}
+.room-card{background:#F6F1E7 !important}
+.route-steps{background:#F6F1E7 !important}
+.security-q-card{background:#F3E5F5 !important}
+.see-also-card{background:#FFF8DC !important}
+.sidebar-progress{background:#F6F1E7 !important}
+.sl-example{background:#FFF8E7 !important}
+.sort-bucket.sort-boy{background:#F0F5FF !important}
+.sort-bucket.sort-girl{background:#FFF0F5 !important}
+.spelling-sample{background:#FFE8D6 !important}
+.strategy-box{background:#F6F1E7 !important}
+.talk-to-teacher{background:#FFF4E0 !important}
+.time-card{background:#9B59B622 !important}
+.time-sentence-row.is-example{background:#FFF8E7 !important}
+.tools-section::before{background:none !important}
+.visual-panel{background:#FFF8E7 !important}
+.vocab-card.is-difficult{background:#FFFBF0 !important}
+.vocab-result{background:#F6F1E7 !important}
+.wb-example-box{background:#D9E3CC !important}
+.word-tile{background:#F6F1E7 !important}
+.word-tile.checked{background:#D9E3CC !important}
+body{background:rgba(212,160,74,0.05) !important}
+
+/* ── FIX: هدر هم‌رنگ بدنه (حذف درز)، فوتر تیره‌تر، نوار پیشرفت خوانا ── */
+.hero{ background:transparent !important; }              /* هدر از بدنه ارث می‌برد، بدون درز */
+.footer,footer.footer{ background:#222019 !important; color:rgba(255,255,255,.55) !important; }
+/* نوار پیشرفت: پس‌زمینه‌ی روشن، پُرشدنِ سبز، درصد/متن خوانا */
+.progress-bar,.sidebar-progress,.vocab-progress{ background:#E3E6E8 !important; border-radius:9999px !important; }
+.progress-fill,.sidebar-progress-fill,.vocab-progress-fill{ background:#58CC02 !important; }
+.progress-num,.progress-percent,.vocab-progress-num,.sidebar-progress-num{ color:#3C3C3C !important; font-weight:800 !important; }
+.progress-label,.progress-title{ color:#3C3C3C !important; }
+/* دایره‌ی پیشرفت: عددِ تیره (نه سبزِ کم‌کنتراست) */
+.progress-circle-num{ color:#3C3C3C !important; }
+/* ── FIX: کنتراست — متنِ سبزِ کم‌خوان روی کارتِ روشن → سبزِ تیره‌ی خوانا ── */
+.vocab-word,.word-en,.match-en,.card-en,.pair-en,.dialog-en,
+.image-word-en,.bilingual-en .word,.classmate-en{ color:#256B14 !important; }
+/* نقل‌قول/آیه: متن انگلیسی تیره، منبع سبزِ تیره */
+.quote-en,.verse-en,.ayah-en,.reading-quote-en{ color:#3C3C3C !important; }
+.quote-source,.ayah-source,.verse-ref{ color:#256B14 !important; }
+/* شماره‌ی بزرگِ کارت درس (عکس ۶): سبزِ کم‌رنگ → خاکستریِ ملایم */
+.lesson-card-num{ color:#3C3C3C !important; opacity:.20 !important; }
+
+/* ───────────── FIX ROUND 2 ───────────── */
+
+/* #1: حذف لبه‌ی هدر/بدنه — hero و بلاب‌ها شفاف، هیچ سطحِ رنگیِ متفاوتی نماند */
+.hero{ background:transparent !important; }
+.hero-shape,.hero-shape-2{ display:none !important; }    /* بلاب‌های گرادیانی که درز می‌ساختند */
+.progress-section{ background:transparent !important; }
+
+/* #2: حلقه‌ی پیشرفت — مسیرِ خالی سفید/کرمِ روشن (نه خاکستریِ محو) */
+.progress-circle-track,.progress-circle-bg{ stroke:#FFFFFF !important; }
+circle.progress-circle-track{ stroke:#FFFFFF !important; }
+
+/* #3: کارت‌های پایه — گرادیان‌های اصلیِ per-grade */
+.grade-card-7 .grade-card-banner{background:linear-gradient(135deg,#EDE4FB 0%,#F8F4FF 100%) !important}
+.grade-card-8 .grade-card-banner{background:linear-gradient(135deg,#D5EBE0 0%,#EBF6F1 100%) !important}
+.grade-card-9 .grade-card-banner{background:linear-gradient(135deg,#FAE3D3 0%,#FEF1E8 100%) !important}
+.grade-card-10 .grade-card-banner{background:linear-gradient(135deg,#D7EBDF 0%,#ECF6F0 100%) !important}
+.grade-card-11 .grade-card-banner{background:linear-gradient(135deg,#D9E6F2 0%,#EDF4FA 100%) !important}
+.grade-card-12 .grade-card-banner{background:linear-gradient(135deg,#F2DCE1 0%,#FAEDF0 100%) !important}
+
+/* وقتی کاور آپلود شده، کاور اولویت دارد (قانون قبلی سرجاش) */
+
+/* #4 (کنتراست سراسری): متنِ سبزِ روشن روی سطح روشن → سبزِ تیره‌ی خوانا */
+.vocab-word,.word-en,.match-en,.card-en,.pair-en,.dialog-en,.image-word-en,
+.classmate-en,.bilingual-en .word,.alphabet-letter,.letter-big,.big-letter,
+.tool-name,.lesson-card-en,.review-strip-title,.section-eyebrow,
+.vocab-en,.flashcard-word,.pd-word,.dict-word,.word-title,
+.sound-letter,.number-en,.color-name-en{ color:#256B14 !important; }
+/* لینکِ ناوبریِ معمولی هم سبزِ تیره در هاور */
+.nav-link:hover{ color:#256B14 !important; }
+/* تبِ فعالِ ناوبری: پس‌زمینه‌ی سبزِ پُر، متن سفید (کنتراست خوب) */
+.nav-link.active{ background:#58CC02 !important; color:#fff !important; }
+
+/* #8: نوار پیشرفت سایدبار — درصد/متن خوانا + تیکِ بخشِ فعال واضح */
+.sidebar-progress,.vocab-progress{ background:#E3E6E8 !important; }
+.sidebar-progress-value,.sidebar-progress-num,.progress-percent{ color:#3C3C3C !important; font-weight:800 !important; }
+.sidebar-progress-fill{ background:#58CC02 !important; }
+/* تیکِ بخشِ فعال: روی پس‌زمینه‌ی سبزِ فعال، تیک سفیدِ واضح */
+.sidebar-item.active .sidebar-check,.tab-btn.active .check,
+.sidebar-item.active .check-icon,.sidebar-item.active .tick{
+  background:#fff !important; color:#256B14 !important; border-color:#fff !important;
+}
+.sidebar-item.active .sidebar-check svg,.sidebar-item.active .tick svg{ color:#256B14 !important; }
+
+/* #5: عکسِ کارتِ واژه کلِ کادر را بپوشاند (بدون نوار سفیدِ بالا) */
+.img-box,.img-card-image,.flashcard-image,.pd-card-image{ overflow:hidden !important; }
+.img-box img,.img-card-image img,.flashcard-image img,.pd-card-image img{
+  width:100% !important; height:100% !important; object-fit:cover !important; object-position:center !important; display:block !important;
+}
+.img-box{ aspect-ratio:4/3 !important; }
+
+/* #7 (Lumiare): لوگو با فونت Lumiare — یکدست در همه‌ی صفحات */
+.brand-glyph,.brand-mark{
+  width:40px !important; height:40px !important; border-radius:11px !important;
+  background:#58CC02 !important; color:#fff !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  font-family:'Lumiare',Georgia,serif !important; font-weight:normal !important;
+  font-size:1.35rem !important; line-height:1 !important; padding-top:2px !important;
+  box-shadow:0 3px 0 #49AD00 !important; flex-shrink:0 !important;
+}
+.brand span:not(.brand-glyph),.navbar-brand span:not(.brand-mark){
+  font-family:'Lumiare',Georgia,serif !important; font-weight:normal !important;
+  font-size:1.5rem !important; letter-spacing:.01em !important; color:#3C3C3C !important;
+  line-height:1 !important; padding-top:3px !important;
+}
+.brand,.navbar-brand{ display:inline-flex !important; align-items:center !important; gap:.55rem !important; text-decoration:none !important; }
+
+/* ── لوگوی آپلودی: اگر images/logo موجود باشد جای متن EV می‌نشیند ── */
+.ev-logo-img{ display:none; height:40px; width:auto; vertical-align:middle; }
+.ev-has-logo .brand-glyph,.ev-has-logo .brand-mark{ display:none !important; }
+.ev-has-logo .brand span:not(.brand-glyph),.ev-has-logo .navbar-brand span:not(.brand-mark){ display:none !important; }
+.ev-has-logo .ev-logo-img{ display:inline-block !important; }
+
+/* ── FIX: هدرِ صفحه‌ی درس هم‌رنگِ بدنه (حذف نوارِ کهربایی) ── */
+.page-header{ background:transparent !important; }
+.page-header::before,.page-header::after{ display:none !important; }
+
+/* ── FIX سراسری: جلوگیری از بیرون‌زدنِ محتوا از کادر (دسکتاپ + موبایل) ── */
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ overflow-x:hidden; max-width:100%; }
+img,video,svg,canvas{ max-width:100%; height:auto; }
+/* شکستِ رشته‌های طولانی (مسیر، لینک، کلمه‌ی بلند) تا از کادر بیرون نزنند */
+p,span,div,td,th,li,a,code,h1,h2,h3,h4,h5,h6,.vocab-word,.word-en,.definition,.reading-para{ overflow-wrap:break-word; word-wrap:break-word; }
+code,pre{ white-space:pre-wrap; word-break:break-word; }
+/* جدول‌ها از کادر بیرون نزنند */
+table{ max-width:100%; }
+.wb-table,.grammar-table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+/* ═══════════ /DUOLINGO ═══════════ */
+</style>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a class="top-nav-brand" href="index.html">📘 پایه هفتم<span class="brand-en">Prospect 1</span></a>
+    <button class="nav-menu-toggle" id="navMenuToggle" aria-label="منو">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div class="top-nav-links">
+      <a class="top-nav-link" href="../index.html">صفحه اصلی سایت</a>
+      <a class="top-nav-link" href="welcome.html">شروع (Welcome)</a>
+      <a class="top-nav-link" href="tools.html?tool=alphabet">الفبا</a>
+      <a class="top-nav-link" href="tools.html?tool=numbers">اعداد</a>
+      <a class="top-nav-link" href="tools.html?tool=colors">رنگ‌ها</a>
+      <a class="top-nav-link active">فلش‌کارت‌ها</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="../index.html">صفحه اصلی سایت</a><span class="sep">›</span><a href="index.html">پایه هفتم</a><span class="sep">›</span><span>فلش‌کارت‌ها</span>
+    </div>
+    <div class="page-tag">🎴 یادگیری شخصی</div>
+    <h1 class="page-title-en">My Flashcards</h1>
+    <div class="page-title-fa">فلش‌کارت‌های من</div>
+    <p style="opacity:.9;font-size:.92rem;margin-top:.85rem;max-width:580px;line-height:1.7">
+      همه واژگان درس‌ها و کلماتی که خودت ذخیره کردی اینجاست. می‌تونی با اون‌ها تمرین کنی و کلمات سخت رو علامت بزنی.
+    </p>
+  </div>
+</div>
+
+<div class="main-content">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-card-icon lesson">📚</div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="statLesson">0</div>
+        <div class="stat-card-label">واژگان درس‌ها</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon saved">⭐</div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="statSaved">0</div>
+        <div class="stat-card-label">افزوده‌های من</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon difficult">🔥</div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="statDifficult">0</div>
+        <div class="stat-card-label">کلمات سخت</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-bar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">📋 همه <span class="count" id="cntAll">0</span></button>
+      <button class="filter-tab" data-filter="lesson">📚 واژگان درس <span class="count" id="cntLesson">0</span></button>
+      <button class="filter-tab" data-filter="saved">⭐ افزوده‌های من <span class="count" id="cntSaved">0</span></button>
+      <button class="filter-tab" data-filter="difficult">🔥 کلمات سخت <span class="count" id="cntDifficult">0</span></button>
+    </div>
+    <button class="start-practice-btn" id="startPracticeBtn">▶ شروع تمرین</button>
+  </div>
+
+  <!-- Cards container -->
+  <div id="cardsContainer"></div>
+
+</div>
+
+<!-- Practice modal -->
+<div class="practice-modal-overlay" id="practiceModal">
+  <div class="practice-modal">
+    <button class="practice-modal-close" id="closePractice">✕</button>
+    <div id="practiceContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="lessons.js"></script>
+<script>
+// Load storage
+let userFlashcards = JSON.parse(localStorage.getItem('uf_grade7') || '{"lesson":[],"saved":[]}');
+userFlashcards.lesson = new Set(userFlashcards.lesson);
+userFlashcards.saved = new Set(userFlashcards.saved);
+let difficultWords = new Set(JSON.parse(localStorage.getItem('df_grade7') || '[]'));
+
+// Pre-populate ALL lesson vocabulary as base
+LESSONS.forEach(l => {
+  if (l.vocabulary) l.vocabulary.forEach(v => userFlashcards.lesson.add(v.word));
+});
+
+function saveStorage() {
+  localStorage.setItem('uf_grade7', JSON.stringify({
+    lesson: [...userFlashcards.lesson],
+    saved: [...userFlashcards.saved]
+  }));
+  localStorage.setItem('df_grade7', JSON.stringify([...difficultWords]));
+}
+saveStorage();
+
+// Build word info lookup
+function getWordInfo(word) {
+  // Check vocabulary in lessons first
+  for (const l of LESSONS) {
+    if (l.vocabulary) {
+      const v = l.vocabulary.find(v => v.word === word);
+      if (v) return {...v, lessonNum: l.num, lessonTitle: l.title};
+    }
+  }
+  // Check WORD_DICT
+  if (WORD_DICT[word]) return {word, ...WORD_DICT[word], example: ''};
+  // Check PHRASE_DICT
+  if (PHRASE_DICT[word]) return {word, pos: 'phrase', ...PHRASE_DICT[word], example: ''};
+  return {word, pos:'?', ipa:'—', fa:'—', example:''};
+}
+
+// Get all flashcards data
+function getAllCards(filter = 'all') {
+  const cards = [];
+  
+  if (filter === 'all' || filter === 'lesson') {
+    LESSONS.forEach(l => {
+      if (l.vocabulary) {
+        l.vocabulary.forEach(v => {
+          cards.push({...v, lessonNum: l.num, lessonTitle: l.title, source: 'lesson'});
+        });
+      }
+    });
+  }
+  
+  if (filter === 'all' || filter === 'saved') {
+    userFlashcards.saved.forEach(w => {
+      const info = getWordInfo(w);
+      if (!cards.find(c => c.word === w)) {
+        cards.push({...info, source: 'saved'});
+      }
+    });
+  }
+  
+  if (filter === 'difficult') {
+    difficultWords.forEach(w => {
+      const info = getWordInfo(w);
+      cards.push({...info, source: difficultWords.has(w) ? 'difficult' : 'lesson'});
+    });
+  }
+  
+  return cards;
+}
+
+// Update stats
+function updateStats() {
+  const lessonCount = userFlashcards.lesson.size;
+  const savedCount = userFlashcards.saved.size;
+  const difficultCount = difficultWords.size;
+  
+  document.getElementById('statLesson').textContent = lessonCount;
+  document.getElementById('statSaved').textContent = savedCount;
+  document.getElementById('statDifficult').textContent = difficultCount;
+  
+  document.getElementById('cntAll').textContent = lessonCount + savedCount;
+  document.getElementById('cntLesson').textContent = lessonCount;
+  document.getElementById('cntSaved').textContent = savedCount;
+  document.getElementById('cntDifficult').textContent = difficultCount;
+}
+
+// Render cards
+let currentFilter = 'all';
+let visibleCards = [];
+
+function render() {
+  const container = document.getElementById('cardsContainer');
+  visibleCards = getAllCards(currentFilter);
+  
+  if (visibleCards.length === 0) {
+    let msg = '';
+    if (currentFilter === 'saved') {
+      msg = `<div class="empty-state-icon">⭐</div>
+        <h3>هنوز کلمه‌ای ذخیره نکردی</h3>
+        <p>توی هر درسی روی کلمات کلیک کن و دکمه «+ افزوده‌های من» رو بزن. اون‌ها اینجا ظاهر می‌شن.</p>
+        <a href="lesson.html?id=1" class="btn btn-primary">شروع از درس ۱</a>`;
+    } else if (currentFilter === 'difficult') {
+      msg = `<div class="empty-state-icon">🔥</div>
+        <h3>هنوز کلمه‌ای رو سخت علامت نزدی</h3>
+        <p>توی بخش واژگان هر درس، کلماتی که برات سختن رو با دکمه «⭐ علامت سختی» نشون‌دار کن. اون‌ها اینجا ظاهر می‌شن تا بیشتر تمرین کنی.</p>
+        <a href="lesson.html?id=1" class="btn btn-primary">رفتن به درس ۱</a>`;
+    } else {
+      msg = `<div class="empty-state-icon">📚</div>
+        <h3>فلش‌کارتی موجود نیست</h3>
+        <p>به درس‌های پایه هفتم برو تا واژگان رسمی هر درس به‌طور خودکار در فلش‌کارت‌هات اضافه بشه.</p>
+        <a href="index.html" class="btn btn-primary">صفحه اصلی پایه هفتم</a>`;
+    }
+    container.innerHTML = `<div class="empty-state">${msg}</div>`;
+    return;
+  }
+  
+  // Group by lesson if filter is 'all' or 'lesson'
+  if (currentFilter === 'all' || currentFilter === 'lesson') {
+    const grouped = {};
+    const savedNotInLesson = [];
+    
+    visibleCards.forEach(c => {
+      if (c.source === 'lesson') {
+        if (!grouped[c.lessonNum]) grouped[c.lessonNum] = {title: c.lessonTitle, cards: []};
+        grouped[c.lessonNum].cards.push(c);
+      } else if (c.source === 'saved') {
+        savedNotInLesson.push(c);
+      }
+    });
+    
+    let html = '';
+    Object.keys(grouped).sort((a,b) => a - b).forEach(num => {
+      const g = grouped[num];
+      html += `
+        <div class="lesson-group">
+          <div class="lesson-group-head">
+            <div class="lesson-group-info">
+              <div class="lesson-group-num">${num}</div>
+              <div>
+                <div class="lesson-group-title">Lesson ${num} — ${g.title}</div>
+                <div class="lesson-group-fa">واژگان رسمی این درس</div>
+              </div>
+            </div>
+            <div class="lesson-group-count">${g.cards.length} کلمه</div>
+          </div>
+          <div class="flashcard-grid">${g.cards.map(c => renderCard(c)).join('')}</div>
+        </div>
+      `;
+    });
+    
+    if (savedNotInLesson.length > 0 && currentFilter === 'all') {
+      html += `
+        <div class="lesson-group">
+          <div class="lesson-group-head" style="background:linear-gradient(135deg,#FCE9F3 0%,#fff 100%);border-right-color:#A33B6E">
+            <div class="lesson-group-info">
+              <div class="lesson-group-num" style="color:#A33B6E">⭐</div>
+              <div>
+                <div class="lesson-group-title">My Saved Words</div>
+                <div class="lesson-group-fa">کلمات و عباراتی که خودت اضافه کردی</div>
+              </div>
+            </div>
+            <div class="lesson-group-count">${savedNotInLesson.length} کلمه</div>
+          </div>
+          <div class="flashcard-grid">${savedNotInLesson.map(c => renderCard(c)).join('')}</div>
+        </div>
+      `;
+    }
+    
+    container.innerHTML = html || '<div class="empty-state"><h3>کارتی نمایش داده نشد</h3></div>';
+  } else {
+    // saved only or difficult only
+    container.innerHTML = `<div class="flashcard-grid">${visibleCards.map(c => renderCard(c)).join('')}</div>`;
+  }
+  
+  attachCardEvents();
+}
+
+function renderCard(c) {
+  const isDifficult = difficultWords.has(c.word);
+  const isSaved = userFlashcards.saved.has(c.word);
+  return `
+    <div class="flashcard ${isDifficult ? 'is-difficult' : ''}" data-word="${c.word}">
+      <div class="fc-front">
+        <div class="fc-word">${c.word}</div>
+        <div><span class="fc-pos">${c.pos || '?'}</span></div>
+        <div class="fc-ipa">${c.ipa || '—'}</div>
+      </div>
+      <div class="fc-back">
+        <div>${c.fa || '—'}</div>
+        ${c.example ? `<div class="fc-back-example">${c.example}</div>` : ''}
+      </div>
+      <div class="fc-actions">
+        <button class="fc-action-btn flip-btn">🔄 برگردان</button>
+        <button class="fc-action-btn diff-btn ${isDifficult ? 'marked' : ''}">${isDifficult ? '✓ سخت' : '⭐ سخت'}</button>
+        ${isSaved ? `<button class="fc-action-btn danger remove-btn">🗑️ حذف</button>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function attachCardEvents() {
+  document.querySelectorAll('.flashcard').forEach(card => {
+    const word = card.dataset.word;
+    
+    card.querySelector('.flip-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      card.classList.toggle('flipped');
+    });
+    
+    const diffBtn = card.querySelector('.diff-btn');
+    if (diffBtn) {
+      diffBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (difficultWords.has(word)) {
+          difficultWords.delete(word);
+          card.classList.remove('is-difficult');
+          diffBtn.textContent = '⭐ سخت';
+          diffBtn.classList.remove('marked');
+          showToast(`«${word}» از کلمات سخت برداشته شد`);
+        } else {
+          difficultWords.add(word);
+          card.classList.add('is-difficult');
+          diffBtn.textContent = '✓ سخت';
+          diffBtn.classList.add('marked');
+          showToast(`«${word}» به کلمات سخت اضافه شد ⭐`);
+        }
+        saveStorage();
+        updateStats();
+      });
+    }
+    
+    const removeBtn = card.querySelector('.remove-btn');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (confirm(`کلمه «${word}» از افزوده‌های شما حذف شود؟`)) {
+          userFlashcards.saved.delete(word);
+          difficultWords.delete(word);
+          saveStorage();
+          render();
+          updateStats();
+          showToast(`«${word}» حذف شد`);
+        }
+      });
+    }
+    
+    // Click on card body flips it
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+  });
+}
+
+// Filter tabs
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentFilter = tab.dataset.filter;
+    render();
+  });
+});
+
+// Toast
+const toast = document.getElementById('toast');
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+// ─── PRACTICE MODE ───
+const modal = document.getElementById('practiceModal');
+let practiceCards = [];
+let practiceIdx = 0;
+let practiceStats = {knew: 0, didntKnow: 0};
+
+document.getElementById('startPracticeBtn').addEventListener('click', () => {
+  practiceCards = [...visibleCards];
+  if (practiceCards.length === 0) {
+    showToast('کلمه‌ای برای تمرین وجود نداره');
+    return;
+  }
+  // Shuffle
+  practiceCards.sort(() => Math.random() - 0.5);
+  practiceIdx = 0;
+  practiceStats = {knew: 0, didntKnow: 0};
+  modal.classList.add('show');
+  showPracticeCard();
+});
+
+document.getElementById('closePractice').addEventListener('click', () => {
+  modal.classList.remove('show');
+});
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('show');
+});
+
+function showPracticeCard() {
+  if (practiceIdx >= practiceCards.length) {
+    showResult();
+    return;
+  }
+  const c = practiceCards[practiceIdx];
+  const isDifficult = difficultWords.has(c.word);
+  document.getElementById('practiceContent').innerHTML = `
+    <div class="practice-progress">${practiceIdx + 1} / ${practiceCards.length}</div>
+    <div class="practice-progress-bar">
+      <div class="practice-progress-fill" style="width:${((practiceIdx) / practiceCards.length) * 100}%"></div>
+    </div>
+    <div class="practice-card ${isDifficult ? 'is-difficult' : ''}" id="practiceCard">
+      <div class="practice-word">${c.word}</div>
+      <div><span class="practice-pos">${c.pos || '?'}</span></div>
+      <div class="practice-ipa">${c.ipa || '—'}</div>
+      <span class="practice-tap-hint">برای دیدن معنی روی کارت بزن ↓</span>
+      <div class="practice-back">
+        <div style="font-size:1.5rem;color:var(--text-dark);font-weight:600;margin-bottom:.5rem">${c.fa || '—'}</div>
+        ${c.example ? `<div class="practice-back-example">${c.example}</div>` : ''}
+      </div>
+    </div>
+    <div class="practice-actions" id="practiceActions" style="display:none">
+      <button class="practice-btn didnt-know" data-result="didntKnow">✗ بلد نبودم</button>
+      <button class="practice-btn knew" data-result="knew">✓ بلدم</button>
+    </div>
+  `;
+  
+  document.getElementById('practiceCard').addEventListener('click', () => {
+    document.getElementById('practiceCard').classList.toggle('flipped');
+    document.getElementById('practiceActions').style.display = 'flex';
+  });
+  
+  document.querySelectorAll('.practice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const result = btn.dataset.result;
+      if (result === 'knew') {
+        practiceStats.knew++;
+      } else {
+        practiceStats.didntKnow++;
+        // Auto-mark as difficult
+        difficultWords.add(practiceCards[practiceIdx].word);
+        saveStorage();
+      }
+      practiceIdx++;
+      showPracticeCard();
+    });
+  });
+}
+
+function showResult() {
+  const total = practiceStats.knew + practiceStats.didntKnow;
+  const percent = total > 0 ? Math.round((practiceStats.knew / total) * 100) : 0;
+  let icon = '🎉', msg = 'عالی بود!';
+  if (percent < 50) {icon = '💪'; msg = 'تمرین کن، بهتر می‌شی!'}
+  else if (percent < 80) {icon = '👍'; msg = 'خوب بود، ادامه بده!'}
+  
+  document.getElementById('practiceContent').innerHTML = `
+    <div class="practice-result">
+      <div class="practice-result-icon">${icon}</div>
+      <h3>${msg}</h3>
+      <p style="color:var(--text-mid)">شما ${practiceStats.knew} از ${total} کلمه (${percent}٪) رو می‌دونستید.</p>
+      <div class="practice-result-stats">
+        <div>
+          <div class="practice-result-stat-num knew">${practiceStats.knew}</div>
+          <div class="practice-result-stat-label">بلد بودم</div>
+        </div>
+        <div>
+          <div class="practice-result-stat-num didnt-know">${practiceStats.didntKnow}</div>
+          <div class="practice-result-stat-label">بلد نبودم</div>
+        </div>
+      </div>
+      ${practiceStats.didntKnow > 0 ? `<p style="font-size:.82rem;color:var(--accent);margin-bottom:1rem">⭐ ${practiceStats.didntKnow} کلمه به‌طور خودکار به فهرست کلمات سخت اضافه شدند</p>` : ''}
+      <button class="btn btn-primary" id="closeResult">بستن</button>
+    </div>
+  `;
+  document.getElementById('closeResult').addEventListener('click', () => {
+    modal.classList.remove('show');
+    render();
+    updateStats();
+  });
+}
+
+// Initial render
+updateStats();
+render();
+</script>
+
+<script>
+// Mobile menu toggle
+(function(){
+  const toggle = document.getElementById('navMenuToggle');
+  const links = document.querySelector('.top-nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+    });
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.top-nav')) {
+        links.classList.remove('open');
+      }
+    });
+  }
+})();
+</script>
+<script>
+/* لوگوی آپلودی: اگر images/logo.* موجود باشد، جای متنِ EV نشان داده می‌شود */
+(function(){
+  var brands=document.querySelectorAll('.brand,.navbar-brand');
+  if(!brands.length) return;
+  // عمقِ مسیر: چند پوشه از ریشه فاصله داریم؟ (لندینگ=0، gradeN=1)
+  var depth=(location.pathname.match(/grade\d+\//)?1:0);
+  var prefix='../'.repeat(depth);
+  var exts=['png','jpg','jpeg','webp','svg'];
+  var i=0;
+  function tryNext(){
+    if(i>=exts.length) return;
+    var src=prefix+'images/logo.'+exts[i];
+    var probe=new Image();
+    probe.onload=function(){
+      brands.forEach(function(b){
+        if(b.querySelector('.ev-logo-img')) return;
+        var img=document.createElement('img');
+        img.src=src; img.alt='English Vision'; img.className='ev-logo-img';
+        b.insertBefore(img,b.firstChild);
+        b.classList.add('ev-has-logo');
+      });
+      document.documentElement.classList.add('ev-has-logo');
+    };
+    probe.onerror=function(){ i++; tryNext(); };
+    probe.src=src;
+  }
+  tryNext();
+})();
+</script>
+<script defer src="../admin/hit.js"></script>
+</body>
+</html>
