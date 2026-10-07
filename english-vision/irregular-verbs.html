@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>افعال بی‌قاعده — English Vision</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+:root{
+  --ink:#1A1814;
+  --ink-soft:#3D3530;
+  --ink-light:#6B6058;
+  --ink-faint:#A39689;
+  --paper:#F8F4ED;
+  --paper-warm:#F2EBE0;
+  --paper-cream:#EDE4D3;
+  --accent:#C8541A;
+  --accent-glow:#FFE8D6;
+  --highlight:#D4A04A;
+  --highlight-glow:#F4D89B;
+  --deep:#1F3A5F;
+  --green:#5C7A3F;
+  --border:rgba(26,24,20,0.08);
+  --font-display:'Playfair Display', Georgia, serif;
+  --font-fa:'Estedad','Vazirmatn',Tahoma,sans-serif;
+}*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-fa);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  min-height:100vh;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(at 20% 10%, rgba(212,160,74,0.06) 0%, transparent 50%),
+    radial-gradient(at 80% 30%, rgba(200,84,26,0.04) 0%, transparent 50%);
+}
+a{text-decoration:none;color:inherit}
+
+/* NAVBAR */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(248,244,237,0.9);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+}
+.navbar-inner{
+  max-width:1100px;margin:0 auto;
+  padding:.9rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.navbar-brand{
+  display:flex;align-items:center;gap:.65rem;
+  font-family:var(--font-display);font-weight:700;
+  font-size:1.2rem;color:var(--ink);direction:ltr;
+}
+.brand-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;
+  background:var(--ink);color:var(--paper);
+  border-radius:6px;font-weight:900;font-size:.95rem;
+  transform:rotate(-3deg);
+  box-shadow:2px 2px 0 var(--accent);
+  flex-shrink:0;
+}
+.nav-back{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.85rem;color:var(--ink-light);font-weight:500;
+  padding:.45rem .85rem;border-radius:8px;
+  border:1px solid var(--border);
+  transition:all .2s;
+}
+.nav-back:hover{background:var(--paper-cream);color:var(--accent);border-color:var(--accent)}
+
+/* HERO */
+.hero{
+  padding:3.5rem 1.5rem 2.5rem;
+  position:relative;overflow:hidden;
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.hero-shape{
+  position:absolute;top:-50px;right:-50px;
+  width:300px;height:300px;
+  background:radial-gradient(circle, var(--accent-glow), transparent 70%);
+  filter:blur(40px);opacity:.6;pointer-events:none;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--paper-cream);
+  padding:.4rem 1rem;border-radius:99px;
+  font-size:.78rem;color:var(--ink-soft);font-weight:500;
+  margin-bottom:1.25rem;border:1px solid var(--border);
+}
+.hero-tag::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+}
+.hero-title{
+  font-family:var(--font-fa);font-weight:900;
+  font-size:clamp(2rem,4.5vw,3.2rem);
+  line-height:1.15;letter-spacing:-0.02em;
+  margin-bottom:.5rem;
+}
+.hero-title .accent-word{
+  color:var(--accent);position:relative;display:inline-block;
+}
+.hero-title .accent-word::after{
+  content:'';position:absolute;
+  bottom:-2px;left:0;right:0;height:8px;
+  background:var(--highlight-glow);
+  z-index:-1;border-radius:4px;
+}
+.hero-title-en{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.2rem,2.5vw,1.7rem);
+  color:var(--ink-light);direction:ltr;text-align:right;
+  margin-bottom:1.25rem;
+}
+.hero-desc{
+  font-size:1rem;color:var(--ink-soft);
+  line-height:1.85;max-width:680px;
+}
+
+/* MAIN */
+.main{
+  max-width:1100px;margin:0 auto;
+  padding:0 1.5rem 4rem;
+}
+
+/* STATS */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;
+  margin-bottom:2rem;
+}
+.stat-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:14px;padding:1.15rem 1rem;
+  text-align:center;
+}
+.stat-num{
+  font-family:var(--font-display);font-weight:900;
+  font-size:2rem;line-height:1;
+  color:var(--accent);margin-bottom:.3rem;
+}
+.stat-card:nth-child(2) .stat-num{color:var(--highlight)}
+.stat-card:nth-child(3) .stat-num{color:var(--green)}
+.stat-label{
+  font-size:.78rem;color:var(--ink-light);
+}
+
+/* SEARCH BAR */
+.search-bar{
+  background:#fff;border:1px solid var(--border);
+  border-radius:14px;padding:.85rem 1.15rem;
+  display:flex;gap:.75rem;align-items:center;
+  margin-bottom:1rem;
+  transition:border-color .2s;
+}
+.search-bar:focus-within{border-color:var(--accent)}
+.search-icon{font-size:1.1rem;flex-shrink:0;opacity:.5}
+.search-input{
+  flex:1;border:none;background:transparent;
+  font-family:var(--font-fa);font-size:.95rem;
+  outline:none;color:var(--ink);min-width:0;
+}
+.search-input::placeholder{color:var(--ink-faint)}
+.search-clear{
+  background:var(--paper-cream);border:none;border-radius:50%;
+  width:28px;height:28px;cursor:pointer;font-size:.95rem;
+  color:var(--ink-light);display:none;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.search-clear.show{display:flex}
+.search-clear:hover{background:var(--accent-glow);color:var(--accent)}
+
+/* FILTER PILLS */
+.filter-row{
+  display:flex;gap:.5rem;flex-wrap:wrap;
+  margin-bottom:1.5rem;
+}
+.filter-pill{
+  background:#fff;border:1px solid var(--border);
+  border-radius:99px;padding:.5rem 1rem;cursor:pointer;
+  font-family:var(--font-fa);font-size:.85rem;
+  color:var(--ink-soft);transition:all .15s;
+  display:inline-flex;align-items:center;gap:.4rem;
+  white-space:nowrap;
+}
+.filter-pill:hover{background:var(--paper-cream);border-color:var(--ink-light)}
+.filter-pill.active{
+  background:var(--ink);color:var(--paper);border-color:var(--ink);
+}
+.filter-pill .count{
+  background:rgba(255,255,255,0.15);padding:.05rem .45rem;
+  border-radius:99px;font-size:.72rem;direction:ltr;
+}
+.filter-pill:not(.active) .count{
+  background:var(--paper-cream);color:var(--ink-light);
+}
+
+/* TIPS */
+.tips-card{
+  background:linear-gradient(135deg,var(--accent-glow),#FFF4E0);
+  border:1px solid var(--highlight-glow);
+  border-radius:14px;padding:1.15rem 1.25rem;
+  margin-bottom:2rem;
+}
+.tips-title{
+  font-weight:700;color:#8B5C0F;font-size:.95rem;
+  margin-bottom:.65rem;display:flex;align-items:center;gap:.45rem;
+}
+.tips-list{list-style:none;padding:0}
+.tips-list li{
+  position:relative;padding:.4rem 0 .4rem 1rem;
+  font-size:.85rem;line-height:1.85;color:var(--ink);
+}
+.tips-list li::before{
+  content:'';position:absolute;top:.85rem;right:0;
+  width:5px;height:5px;border-radius:50%;background:var(--accent);
+}
+.tips-list code{
+  display:inline-block;direction:ltr;unicode-bidi:isolate;
+  background:#fff;padding:.1rem .45rem;border-radius:4px;
+  font-family:var(--font-display);font-size:.85em;
+  border:1px solid var(--border);
+  font-weight:600;color:var(--accent);
+  vertical-align:baseline;margin:0 .15rem;
+}
+
+/* GROUP HEADER */
+.group-header{
+  display:flex;align-items:center;gap:.65rem;
+  padding:1.5rem 0 .85rem;
+  font-weight:700;color:var(--ink);font-size:1.1rem;
+}
+.group-header:first-of-type{padding-top:.5rem}
+.group-letter{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:8px;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--font-display);font-weight:900;font-size:1rem;
+  flex-shrink:0;
+}
+.group-count{
+  font-size:.75rem;color:var(--ink-faint);
+  font-family:var(--font-display);direction:ltr;
+  margin-right:auto;font-style:italic;
+}
+
+/* VERB CARDS GRID */
+.verbs-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:.75rem;
+}
+.verb-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:.85rem 1rem;
+  transition:all .2s;
+  display:grid;
+  grid-template-columns:auto auto 1fr;
+  grid-template-rows:auto;
+  gap:.5rem .75rem;align-items:center;
+  direction:ltr;
+}
+.verb-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--accent);
+  box-shadow:0 6px 16px -8px rgba(200,84,26,0.2);
+}
+.verb-card.same{
+  background:linear-gradient(135deg,#FFFAE6,#FFF8DC);
+  border-color:var(--highlight-glow);
+}
+.verb-base{
+  font-family:var(--font-display);font-weight:700;
+  font-size:1.05rem;color:var(--accent);
+  line-height:1.2;
+}
+.verb-arrow{
+  color:var(--ink-faint);font-weight:700;
+  font-size:1rem;
+}
+.verb-past{
+  font-family:var(--font-display);font-weight:600;
+  font-size:1.05rem;color:var(--ink);
+  line-height:1.2;
+}
+.verb-fa{
+  grid-column:1 / -1;
+  font-size:.78rem;color:var(--ink-light);
+  direction:rtl;text-align:right;
+  padding-top:.4rem;
+  border-top:1px dashed var(--border);
+  font-family:var(--font-fa);
+}
+
+/* NO RESULTS */
+.no-results{
+  text-align:center;padding:3rem 1rem;
+  color:var(--ink-light);
+}
+.no-results-icon{font-size:3rem;margin-bottom:.85rem;opacity:.4}
+.no-results-text{font-size:.95rem}
+
+/* BACK TO TOP */
+.back-to-top{
+  position:fixed;bottom:1.5rem;left:1.5rem;
+  background:var(--ink);color:var(--paper);
+  border:none;border-radius:50%;
+  width:46px;height:46px;cursor:pointer;
+  font-size:1.3rem;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(26,24,20,0.25);
+  transition:all .2s;z-index:50;
+}
+.back-to-top:hover{transform:translateY(-2px);background:var(--accent)}
+.back-to-top.show{display:flex}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:2rem 1.5rem;
+  color:var(--ink-faint);font-size:.82rem;
+  border-top:1px solid var(--border);
+  margin-top:2rem;
+}
+
+/* ───── MOBILE ───── */
+@media (max-width:640px){
+  .navbar-inner{padding:.75rem 1rem;gap:.65rem}
+  .navbar-brand{font-size:1.05rem}
+  .brand-mark{width:30px;height:30px;font-size:.85rem}
+  .nav-back{padding:.4rem .7rem;font-size:.78rem}
+  
+  .hero{padding:2.25rem 1.15rem 1.75rem}
+  .hero-tag{font-size:.72rem;padding:.35rem .85rem}
+  .hero-title{font-size:1.65rem;line-height:1.25}
+  .hero-title-en{font-size:1.05rem}
+  .hero-desc{font-size:.9rem;line-height:1.8}
+  
+  .main{padding:0 1.15rem 3rem}
+  
+  .stats-row{gap:.5rem;grid-template-columns:repeat(3,1fr)}
+  .stat-card{padding:.85rem .5rem}
+  .stat-num{font-size:1.5rem}
+  .stat-label{font-size:.7rem;line-height:1.3}
+  
+  .search-bar{padding:.75rem 1rem;border-radius:12px}
+  .search-input{font-size:.9rem}
+  
+  .filter-row{gap:.4rem;margin-bottom:1.25rem}
+  .filter-pill{padding:.4rem .85rem;font-size:.78rem}
+  .filter-pill .count{font-size:.68rem}
+  
+  .tips-card{padding:1rem 1.15rem;margin-bottom:1.5rem}
+  .tips-title{font-size:.9rem}
+  .tips-list li{font-size:.82rem;line-height:1.85}
+  
+  .group-header{font-size:1rem;padding:1.25rem 0 .65rem}
+  .group-letter{width:26px;height:26px;font-size:.9rem}
+  
+  /* Critical: verb cards must fit phone screen */
+  .verbs-grid{grid-template-columns:1fr;gap:.5rem}
+  .verb-card{
+    padding:.75rem .9rem;
+    grid-template-columns:auto auto 1fr;
+    gap:.4rem .6rem;
+  }
+  .verb-base,.verb-past{font-size:.98rem}
+  .verb-fa{font-size:.75rem;padding-top:.35rem}
+  
+  .back-to-top{width:42px;height:42px;bottom:1rem;left:1rem;font-size:1.15rem}
+}
+
+@media (max-width:380px){
+  .navbar-brand{font-size:.95rem}
+  .navbar-brand .brand-text{display:none}
+  .nav-back{padding:.4rem .65rem;font-size:.75rem}
+  .hero-title{font-size:1.5rem}
+  .hero-title-en{font-size:.95rem}
+  .stat-num{font-size:1.3rem}
+  .stat-label{font-size:.65rem}
+  .verb-base,.verb-past{font-size:.92rem}
+}
+
+/* Body — flat, no gradients */
+
+/* Navbar */
+
+/* Override all gradient backgrounds in dark mode */
+
+/* Hero shapes & decorations */
+
+/* Cards in dark mode - solid bg */
+
+/* Sticky notes in dark mode - subtler, less pastel */
+
+/* Buttons */
+
+/* Chat bubbles */
+
+/* Features (dark section gets even darker) */
+
+/* ─── Body ─── */
+
+/* ─── Navbar / Top nav ─── */
+
+/* ─── KILL ALL GRADIENTS in dark mode ─── */
+
+/* All gradient backgrounds → flat surface */
+
+/* Sidebar progress fills — keep solid color */
+
+/* ─── White backgrounds → surface ─── */
+
+/* Toggle pills, buttons */
+
+/* Sidebar items */
+
+/* Hero shapes pure-color buttons in light mode */
+
+/* Cards with hover state */
+
+/* Sticky notes — keep colored but dimmer */
+
+/* Primary CTA */
+
+/* Chat bubbles */
+
+/* In-content phrase highlights */
+
+/* Word popup */
+
+/* Features dark section gets deeper */
+
+/* ─── Theme toggle button ─── */
+
+
+/* یکدستی فونت */
+input,button,select,textarea{font-family:inherit}
+code{font-family:var(--font-fa,inherit);font-size:.9em;background:rgba(0,0,0,.055);padding:1px 7px;border-radius:6px;display:inline-block;unicode-bidi:plaintext}
+
+/* استاندارد جهت‌ها */
+[class*="-en"]:not([class*="-end"]):not([class*="-entry"]){direction:ltr;unicode-bidi:isolate}
+.wb-input,input[type="text"],textarea{direction:ltr;text-align:left;unicode-bidi:plaintext}
+
+/* ═══════════ DUOLINGO — حذف این بلوک = برگشت کامل ═══════════ */
+:root{
+  /* بازتعریفِ توکن‌های هویتی → پالت Duolingo (سراسری) */
+  --accent:#58CC02 !important;
+  --accent-light:#E8F9DC !important;
+  --accent-glow:#E8F9DC !important;
+  --primary:#58CC02 !important;
+  --primary-light:#49AD00 !important;
+  --primary-pale:#D7F0C2 !important;
+  --primary-ghost:#EAF7E0 !important;
+  --ink:#3C3C3C !important;
+  --ink-light:#777777 !important;
+  --text-soft:#777777 !important;
+  --green:#58CC02 !important;
+  --border:#E5E5E5 !important;
+  --border-light:#E5E5E5 !important;
+  --paper:#FFFFFF !important;
+  --paper-warm:#FFFFFF !important;
+  --paper-cream:#F7F7F7 !important;
+  /* توکن‌های اختصاصی این تم */
+  --du-g:#58CC02; --du-gh:#49AD00; --du-gs:#58A700;
+  --du-blue:#1CB0F6; --du-yel:#FFC800; --du-red:#FF4B4B; --du-pur:#CE82FF; --du-orange:#FF9600;
+  --du-ink:#3C3C3C; --du-mut:#777777; --du-border:#E5E5E5; --du-s1:#F7F7F7;
+  --du-r-sm:8px; --du-r-md:12px; --du-r-lg:20px; --du-r-xl:28px;
+  --du-ease:cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── سطح و متنِ ضخیم (Duo هیچ‌جا نازک نیست) ── */
+body{ background:#FFFFFF !important; color:#3C3C3C !important; }
+body,p,span,div,a,li,td,th,label,button,input{ font-weight:700; }
+h1,h2,h3,h4,.lesson-card-en,.grade-card-title,.section-title,.header-title{
+  font-weight:800 !important; letter-spacing:-.01em !important;
+}
+.lesson-card-fa,.review-strip-fa,.section-desc,.lesson-card-desc{ font-weight:700 !important; }
+
+/* ── کارت‌ها: خطِ ضخیم + سایه‌ی فیزیکیِ پایین (نه سایه‌ی نرم) ── */
+.lesson-card,.grade-card,.tool-card{
+  border:2px solid #E5E5E5 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important;
+  transition:transform .12s var(--du-ease), box-shadow .12s, border-color .12s !important;
+}
+.lesson-card:hover,.grade-card:hover,.tool-card:hover{
+  transform:translateY(-2px) !important;
+  border-color:#58CC02 !important;
+  box-shadow:0 4px 0 #CFE8BA !important;
+}
+.lesson-card::before{ background:#58CC02 !important; height:5px !important; }
+
+/* بنرِ کارت درس: سطحِ روشن، شماره و آیکن درشت */
+.lesson-card-banner{ background:#F7F7F7 !important; border-bottom:2px solid #E5E5E5 !important; padding:1.3rem 1.3rem 1rem !important; }
+.lesson-card-num{ color:#3C3C3C !important; opacity:.22 !important; font-weight:800 !important; }
+.lesson-card-icon{ opacity:.85 !important; font-size:1.7rem !important; }
+
+/* ── نوار مرور: کاشیِ ضخیمِ سبز-لهجه، سایه‌ی فیزیکی ── */
+.review-strip{
+  background:#FFFFFF !important;
+  color:#3C3C3C !important;
+  border:2px solid #E5E5E5 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important;
+  transition:transform .12s var(--du-ease), box-shadow .12s !important;
+}
+.review-strip:hover{ transform:translateY(-2px) !important; box-shadow:0 4px 0 #CFE8BA !important; border-color:#58CC02 !important; }
+.review-strip-title{ color:#3C3C3C !important; font-weight:800 !important; }
+.review-strip-fa{ color:#777777 !important; }
+.review-strip-icon{ background:#E8F9DC !important; color:#49AD00 !important; border-radius:var(--du-r-md) !important; }
+.review-strip-arrow{ color:#58CC02 !important; }
+.review-strip.done{ background:#E8F9DC !important; border-color:#58CC02 !important; }
+.review-strip.done .review-strip-title{ color:#49AD00 !important; }
+.review-strip.done .review-strip-icon{ background:#58CC02 !important; color:#fff !important; }
+
+/* ── دکمه‌ی اصلی = CTA سه‌بعدیِ Duo که با کلیک فرو می‌رود ── */
+.btn-primary,.btn-check,.footer-btn.next,.audio-play{
+  background:#58CC02 !important; color:#fff !important;
+  border:none !important; border-radius:var(--du-r-md) !important;
+  box-shadow:0 4px 0 #58A700 !important;
+  font-weight:800 !important; text-transform:none !important;
+  transition:transform .08s, box-shadow .08s, background .12s !important;
+}
+.btn-primary:hover,.btn-check:hover,.footer-btn.next:hover{ background:#49AD00 !important; }
+.btn-primary:active,.btn-check:active,.footer-btn.next:active,.audio-play:active{
+  transform:translateY(4px) !important; box-shadow:0 0 0 #58A700 !important;
+}
+/* دکمه‌ی ثانویه = کاشیِ سفیدِ خط‌ضخیم با سایه‌ی فیزیکی */
+.btn-secondary,.btn-practice,.footer-btn.prev{
+  background:#fff !important; color:#3C3C3C !important;
+  border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important;
+  box-shadow:0 2px 0 #E5E5E5 !important; font-weight:800 !important;
+  transition:transform .08s, box-shadow .08s !important;
+}
+.btn-secondary:active,.btn-practice:active,.footer-btn.prev:active{ transform:translateY(2px) !important; box-shadow:0 0 0 #E5E5E5 !important; }
+.audio-play{ border-radius:50% !important; }
+
+/* ── نوار XP/پیشرفت: پیلِ سبزِ پُر ── */
+.progress-fill,.vocab-progress-fill,.sidebar-progress-fill,.ev-card-progress > i,
+.progress-bar-fill,[class*="progress"] [class*="fill"]{
+  background:#58CC02 !important; border-radius:9999px !important;
+}
+.progress-bar,.ev-card-progress{ border-radius:9999px !important; background:#EBEBEB !important; }
+.progress-circle{ color:#58CC02 !important; }
+
+/* ── ناوبری: تبِ فعال سبزِ پُر، گرد ── */
+.nav-link.active{ background:#58CC02 !important; color:#fff !important; border-radius:var(--du-r-md) !important; box-shadow:0 3px 0 #58A700 !important; }
+.nav-link:hover{ color:#49AD00 !important; }
+.brand-glyph{ background:#58CC02 !important; color:#fff !important; border-radius:var(--du-r-md) !important; box-shadow:0 3px 0 #58A700 !important; }
+
+/* ── لینک/های‌لایتِ ثانویه = آبیِ Duo ── */
+.sl-highlight,.word.highlight,mark{ background:#D7F0FF !important; color:#3C3C3C !important; border-radius:6px !important; }
+
+/* ── سایدبارِ درس: کاشیِ خط‌ضخیم، آیتم فعال سبز ── */
+.sidebar{ border:2px solid #E5E5E5 !important; border-radius:var(--du-r-lg) !important; box-shadow:0 2px 0 #E5E5E5 !important; }
+.sidebar-item.active,.tab-btn.active{ background:#E8F9DC !important; color:#49AD00 !important; border-radius:var(--du-r-md) !important; font-weight:800 !important; }
+.sidebar-item.active .sidebar-icon{ color:#49AD00 !important; }
+
+/* ── کارت‌های محتوا ── */
+.conv-card,.quiz-card,.practice-statements,.visual-panel,.sl-example,.rc-passage,.progress-card{
+  border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important; box-shadow:0 2px 0 #E5E5E5 !important;
+}
+.audio-bar{ border:2px solid #E5E5E5 !important; border-radius:var(--du-r-md) !important; }
+
+/* ── پیل/برچسب‌ها + برچسبِ زنده ── */
+.badge,.pill,.tag,.chip{ border-radius:9999px !important; font-weight:800 !important; }
+.badge-live,.status-live,.live-badge{ background:#FF9600 !important; color:#fff !important; }
+
+/* ── کتاب‌های hero: سایه‌ی فیزیکیِ درشت ── */
+.tome{ box-shadow:0 8px 0 rgba(0,0,0,.12), 0 16px 32px -12px rgba(0,0,0,.25) !important; }
+
+/* ── ناوبری چسبان ── */
+.nav,.top-nav{ background:rgba(255,255,255,.92) !important; border-bottom:2px solid #E5E5E5 !important; }
+
+/* ── احترام به کاهشِ حرکت: فنریت/پرش خاموش ── */
+@media (prefers-reduced-motion: reduce){
+  .lesson-card,.grade-card,.tool-card,.review-strip,
+  .btn-primary,.btn-check,.btn-secondary,.btn-practice,.footer-btn,.audio-play{
+    transition:none !important;
+  }
+  .lesson-card:hover,.grade-card:hover,.tool-card:hover,.review-strip:hover{ transform:none !important; }
+  .btn-primary:active,.btn-check:active,.footer-btn.next:active,
+  .btn-secondary:active,.btn-practice:active,.footer-btn.prev:active,.audio-play:active{ transform:none !important; }
+}
+
+/* ── اصلاح کنتراست: متنِ آبی فقط برای لینک‌های متنیِ درون‌خطی، نه روی سطوح رنگی ── */
+a.ev-resume, a.ev-resume *, .review-strip, .review-strip *,
+.lesson-card *, .tool-card *, .grade-card *, .nav-link, .footer-btn, .footer-btn *,
+.btn-primary, .btn-secondary, .btn-check, .btn-practice{ color:inherit; }
+/* کارت ادامه و هر سطحِ سبز: متنِ سفیدِ خوانا */
+.ev-resume{ color:#fff !important; }
+.ev-resume .ev-r-kicker,.ev-resume .ev-r-title,.ev-resume .ev-r-sub{ color:#fff !important; }
+.ev-resume .ev-r-ic{ background:rgba(255,255,255,.22) !important; color:#fff !important; }
+.ev-resume .ev-r-arrow{ color:#fff !important; }
+/* فتودیکشنری/هدرهای سکشن‌دار: سطحِ تختِ سبز + متن سفید (نه گرادیانِ تیره) */
+.dict-section-head{ background:#58CC02 !important; color:#fff !important; }
+.dict-section-head *{ color:#fff !important; }
+.hero-title{ color:#3C3C3C !important; }
+/* لینکِ آبی فقط داخلِ متنِ بدنه (پاراگراف‌ها، تعاریف)، نه دکمه/کارت/نوار */
+.reading-para a, .definition a, .sl-example a, p a, li a{ color:#1CB0F6 !important; }
+
+/* ── مرورها: سبزِ ملایمِ Duo که دیده شود (نه سفیدِ نامرئی) ── */
+.review-strip{
+  background:#E8F9DC !important;
+  color:#3C3C3C !important;
+  border:2px solid #D7F0C2 !important;
+  border-right:5px solid #58CC02 !important;
+  border-radius:var(--du-r-lg) !important;
+  box-shadow:0 2px 0 #D7F0C2 !important;
+}
+.review-strip:hover{ transform:translateY(-2px) !important; box-shadow:0 4px 0 #58CC02 !important; }
+.review-strip-title{ color:#49AD00 !important; font-weight:800 !important; }
+.review-strip-fa{ color:#5C7A4A !important; }
+.review-strip-icon{ background:#58CC02 !important; color:#fff !important; }
+.review-strip-arrow{ color:#49AD00 !important; }
+.review-strip.done{ background:#58CC02 !important; border-color:#49AD00 !important; border-right-color:#49AD00 !important; }
+.review-strip.done .review-strip-title{ color:#fff !important; }
+.review-strip.done .review-strip-fa{ color:rgba(255,255,255,.9) !important; }
+.review-strip.done .review-strip-icon{ background:rgba(255,255,255,.25) !important; color:#fff !important; }
+.review-strip.done .review-strip-arrow{ color:#fff !important; }
+
+/* ── نوارِ پایین لندینگِ هر پایه + همه‌ی گرادیان‌های باقی‌مانده → رنگِ ثابت ── */
+.photo-dict-link{ background:#58CC02 !important; color:#fff !important; }
+.photo-dict-link *{ color:#fff !important; }
+.alphabet-card{background:#E0E3F0 !important}
+.big-flashcard{background:#E0E3F0 !important}
+.big-flashcard.is-difficult{background:#FFF7E0 !important}
+.bilingual-en{background:#FFE8D6 !important}
+.bilingual-fa{background:#E0E3F0 !important}
+.book-cover{background:#E0E3F0 !important}
+.card-a{background:#E0E3F0 !important}
+.card-b{background:#FFF4E0 !important}
+.city-description-card{background:#E3F2FD !important}
+.classmate-row{background:#E0E3F0 !important}
+.context-box{background:#FFF8E7 !important}
+.conv-card{background:#fff !important}
+.conv-en .word.in-phrase{background:none !important}
+.conv-en .word.in-phrase:hover{background:#FFE8D6 !important}
+.country-number-card{background:#E0E3F0 !important}
+.crossword-card{background:#E0E3F0 !important}
+.cta-card{background:#1F3A5F !important}
+.day-card{background:#E67E2222 !important}
+.dialog-builder{background:#E0E3F0 !important}
+.envelope{background:#FFF7E0 !important}
+.examples-display-list{background:#FFE8D6 !important}
+.facts-box{background:#E0E3F0 !important}
+.flashcard.is-difficult{background:#FFFBF0 !important}
+.form-container{background:#E0E3F0 !important}
+.grade-card-10{background:#D7EBDF !important}
+.grade-card-11{background:#D9E6F2 !important}
+.grade-card-12{background:#F2DCE1 !important}
+.grade-card-7{background:#EDE4FB !important}
+.grade-card-8{background:#D5EBE0 !important}
+.grade-card-9{background:#FAE3D3 !important}
+.grade-card-banner{background:#EDE4D3 !important}
+.grammar-explanation{background:#FFF8DC !important}
+.grammar-table-title{background:#E0E3F0 !important}
+.health-phrases{background:#E8F5E9 !important}
+.hero-grid{background:rgba(26,24,20,0.12) !important}
+.hero-shape{background:#E0E3F0 !important}
+.hero-shape-2{background:#F4D89B !important}
+.id-card-form{background:#E0E3F0 !important}
+.image-country-card{background:#E0E3F0 !important}
+.image-flashcard{background:#E0E3F0 !important}
+.img-box.img-loading{background:#F2EBE0 !important}
+.intonation-falling{background:#E8F5E9 !important}
+.intonation-rising{background:#E1F5FE !important}
+.job-image-card{background:#E0E3F0 !important}
+.lesson-group-head{background:#E0E3F0 !important}
+.letter-bag{background:#FFE8D6 !important}
+.letter-practice-card{background:#E0E3F0 !important}
+.martyr-row{background:#D9E3CC !important}
+.melody-examples{background:#E0E3F0 !important}
+.msi-image-card{background:#FFE8D6 !important}
+.number-card{background:#27AE6022 !important}
+.number-tile{background:#27AE6033 !important}
+.occasion-card{background:#E0E3F0 !important}
+.page-header::after{background:#F4D89B !important}
+.page-header::before{background:#E0E3F0 !important}
+.pair-card{background:#E0E3F0 !important}
+.phrase-banner{background:#FFE8D6 !important}
+.poster-form-card{background:#E0E3F0 !important}
+.practice-card{background:#E0E3F0 !important}
+.practice-card.is-difficult{background:#FFF7E0 !important}
+.practice-statements{background:#FFF8E7 !important}
+.progress-card{background:#EDE4D3 !important}
+.pyramid-level{background:#E0E3F0 !important}
+.rc-passage{background:#E8F0FC !important}
+.reading-passage{background:#F8F4ED !important}
+.review-summary{background:#E0E3F0 !important}
+.role-card{background:#E3F2FD !important}
+.role-card-b{background:#FFF8E1 !important}
+.room-card{background:#E0E3F0 !important}
+.route-steps{background:#E0E3F0 !important}
+.security-q-card{background:#F3E5F5 !important}
+.see-also-card{background:#FFF8DC !important}
+.sidebar-progress{background:#E0E3F0 !important}
+.sl-example{background:#FFF8E7 !important}
+.sort-bucket.sort-boy{background:#F0F5FF !important}
+.sort-bucket.sort-girl{background:#FFF0F5 !important}
+.spelling-sample{background:#FFE8D6 !important}
+.strategy-box{background:#E0E3F0 !important}
+.talk-to-teacher{background:#FFF4E0 !important}
+.time-card{background:#9B59B622 !important}
+.time-sentence-row.is-example{background:#FFF8E7 !important}
+.tools-section::before{background:none !important}
+.visual-panel{background:#FFF8E7 !important}
+.vocab-card.is-difficult{background:#FFFBF0 !important}
+.vocab-result{background:#E0E3F0 !important}
+.wb-example-box{background:#D9E3CC !important}
+.word-tile{background:#E0E3F0 !important}
+.word-tile.checked{background:#D9E3CC !important}
+body{background:rgba(212,160,74,0.05) !important}
+
+/* ── FIX: هدر هم‌رنگ بدنه (حذف درز)، فوتر تیره‌تر، نوار پیشرفت خوانا ── */
+.hero{ background:transparent !important; }              /* هدر از بدنه ارث می‌برد، بدون درز */
+.footer,footer.footer{ background:#222019 !important; color:rgba(255,255,255,.55) !important; }
+/* نوار پیشرفت: پس‌زمینه‌ی روشن، پُرشدنِ سبز، درصد/متن خوانا */
+.progress-bar,.sidebar-progress,.vocab-progress{ background:#E3E6E8 !important; border-radius:9999px !important; }
+.progress-fill,.sidebar-progress-fill,.vocab-progress-fill{ background:#58CC02 !important; }
+.progress-num,.progress-percent,.vocab-progress-num,.sidebar-progress-num{ color:#3C3C3C !important; font-weight:800 !important; }
+.progress-label,.progress-title{ color:#3C3C3C !important; }
+/* دایره‌ی پیشرفت: عددِ تیره (نه سبزِ کم‌کنتراست) */
+.progress-circle-num{ color:#3C3C3C !important; }
+/* ── FIX: کنتراست — متنِ سبزِ کم‌خوان روی کارتِ روشن → سبزِ تیره‌ی خوانا ── */
+.vocab-word,.word-en,.match-en,.card-en,.pair-en,.dialog-en,
+.image-word-en,.bilingual-en .word,.classmate-en{ color:#49AD00 !important; }
+/* نقل‌قول/آیه: متن انگلیسی تیره، منبع سبزِ تیره */
+.quote-en,.verse-en,.ayah-en,.reading-quote-en{ color:#3C3C3C !important; }
+.quote-source,.ayah-source,.verse-ref{ color:#49AD00 !important; }
+/* شماره‌ی بزرگِ کارت درس (عکس ۶): سبزِ کم‌رنگ → خاکستریِ ملایم */
+.lesson-card-num{ color:#3C3C3C !important; opacity:.20 !important; }
+
+/* ───────────── FIX ROUND 2 ───────────── */
+
+/* #1: حذف لبه‌ی هدر/بدنه — hero و بلاب‌ها شفاف، هیچ سطحِ رنگیِ متفاوتی نماند */
+.hero{ background:transparent !important; }
+.hero-shape,.hero-shape-2{ display:none !important; }    /* بلاب‌های گرادیانی که درز می‌ساختند */
+.progress-section{ background:transparent !important; }
+
+/* #2: حلقه‌ی پیشرفت — مسیرِ خالی سفید/کرمِ روشن (نه خاکستریِ محو) */
+.progress-circle-track,.progress-circle-bg{ stroke:#FFFFFF !important; }
+circle.progress-circle-track{ stroke:#FFFFFF !important; }
+
+/* #3: کارت‌های پایه — گرادیان‌های اصلیِ per-grade */
+.grade-card-7 .grade-card-banner{background:linear-gradient(135deg,#EDE4FB 0%,#F8F4FF 100%) !important}
+.grade-card-8 .grade-card-banner{background:linear-gradient(135deg,#D5EBE0 0%,#EBF6F1 100%) !important}
+.grade-card-9 .grade-card-banner{background:linear-gradient(135deg,#FAE3D3 0%,#FEF1E8 100%) !important}
+.grade-card-10 .grade-card-banner{background:linear-gradient(135deg,#D7EBDF 0%,#ECF6F0 100%) !important}
+.grade-card-11 .grade-card-banner{background:linear-gradient(135deg,#D9E6F2 0%,#EDF4FA 100%) !important}
+.grade-card-12 .grade-card-banner{background:linear-gradient(135deg,#F2DCE1 0%,#FAEDF0 100%) !important}
+
+/* وقتی کاور آپلود شده، کاور اولویت دارد (قانون قبلی سرجاش) */
+
+/* #4 (کنتراست سراسری): متنِ سبزِ روشن روی سطح روشن → سبزِ تیره‌ی خوانا */
+.vocab-word,.word-en,.match-en,.card-en,.pair-en,.dialog-en,.image-word-en,
+.classmate-en,.bilingual-en .word,.alphabet-letter,.letter-big,.big-letter,
+.tool-name,.lesson-card-en,.review-strip-title,.section-eyebrow,
+.vocab-en,.flashcard-word,.pd-word,.dict-word,.word-title,
+.sound-letter,.number-en,.color-name-en{ color:#3D8B1F !important; }
+/* لینکِ ناوبریِ معمولی هم سبزِ تیره در هاور */
+.nav-link:hover{ color:#3D8B1F !important; }
+/* تبِ فعالِ ناوبری: پس‌زمینه‌ی سبزِ پُر، متن سفید (کنتراست خوب) */
+.nav-link.active{ background:#58CC02 !important; color:#fff !important; }
+
+/* #8: نوار پیشرفت سایدبار — درصد/متن خوانا + تیکِ بخشِ فعال واضح */
+.sidebar-progress,.vocab-progress{ background:#E3E6E8 !important; }
+.sidebar-progress-value,.sidebar-progress-num,.progress-percent{ color:#3C3C3C !important; font-weight:800 !important; }
+.sidebar-progress-fill{ background:#58CC02 !important; }
+/* تیکِ بخشِ فعال: روی پس‌زمینه‌ی سبزِ فعال، تیک سفیدِ واضح */
+.sidebar-item.active .sidebar-check,.tab-btn.active .check,
+.sidebar-item.active .check-icon,.sidebar-item.active .tick{
+  background:#fff !important; color:#49AD00 !important; border-color:#fff !important;
+}
+.sidebar-item.active .sidebar-check svg,.sidebar-item.active .tick svg{ color:#49AD00 !important; }
+
+/* #7: لوگو — یکدست و خوش‌ریخت در همه‌ی صفحات */
+.brand,.nav-brand,.logo,a.brand{ display:inline-flex !important; align-items:center !important; gap:.6rem !important; text-decoration:none !important; }
+.brand-glyph,.logo-glyph,.brand-icon{
+  width:38px !important; height:38px !important; border-radius:11px !important;
+  background:#58CC02 !important; color:#fff !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  font-family:'Playfair Display',Georgia,serif !important; font-weight:900 !important;
+  font-size:1rem !important; letter-spacing:.02em !important;
+  box-shadow:0 3px 0 #49AD00 !important; flex-shrink:0 !important;
+}
+.brand span:not(.brand-glyph),.brand-text,.logo-text{
+  font-family:'Playfair Display',Georgia,serif !important; font-weight:800 !important;
+  font-size:1.15rem !important; letter-spacing:-.01em !important; color:#3C3C3C !important;
+}
+/* ═══════════ /DUOLINGO ═══════════ */
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="../index.html" class="navbar-brand">
+      <span class="brand-mark">EV</span>
+      <span class="brand-text">English Vision</span>
+    </a>
+<a href="../index.html" class="nav-back">
+      <span>صفحه اصلی</span>
+      <span>←</span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-shape"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">مرجع کامل متوسطه اول</div>
+    <h1 class="hero-title">افعال <span class="accent-word">بی‌قاعده</span></h1>
+    <div class="hero-title-en">Irregular Verbs Reference</div>
+    <p class="hero-desc">
+      ۶۰ فعل پرکاربرد در زبان انگلیسی که در زمان گذشته از قواعد عادی پیروی نمی‌کنن. این فعل‌ها رو باید حفظ کنی. با جستجو می‌تونی فعل مورد نظرت رو سریع پیدا کنی.
+    </p>
+  </div>
+</section>
+
+<main class="main">
+  
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">60</div>
+      <div class="stat-label">کل افعال</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="sameCount">5</div>
+      <div class="stat-label">بدون تغییر</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="changedCount">55</div>
+      <div class="stat-label">با تغییر</div>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="جستجو فعل... (مثل go, broke, خوردن)">
+    <button class="search-clear" id="searchClear" title="پاک کردن">✕</button>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-pill active" data-filter="all">همه <span class="count" id="cntAll">60</span></button>
+    <button class="filter-pill" data-filter="same">یکسان <span class="count" id="cntSame">5</span></button>
+    <button class="filter-pill" data-filter="changed">با تغییر <span class="count" id="cntChanged">55</span></button>
+  </div>
+
+  <div class="tips-card">
+    <div class="tips-title">💡 نکات یادگیری</div>
+    <ul class="tips-list">
+      <li>این ۵ فعل تغییر نمی‌کنن: <code>cut</code>, <code>hit</code>, <code>hurt</code>, <code>put</code>, <code>set</code></li>
+      <li>فعل <code>read</code> در گذشته همان <code>read</code> نوشته می‌شه ولی تلفظش <code>red</code> می‌شه</li>
+      <li>الگوهای مشابه: <code>break-broke</code>, <code>speak-spoke</code>, <code>steal-stole</code></li>
+      <li>پایان <code>-ought</code>/<code>-aught</code>: <code>buy-bought</code>, <code>teach-taught</code></li>
+    </ul>
+  </div>
+
+  <div id="verbsContainer"></div>
+  
+  <div class="no-results" id="noResults" style="display:none">
+    <div class="no-results-icon">🔍</div>
+    <div class="no-results-text">فعلی با این جستجو پیدا نشد</div>
+  </div>
+</main>
+
+<button class="back-to-top" id="backToTop" title="بازگشت به بالا">↑</button>
+
+<footer class="footer">
+  English Vision · مرجع افعال بی‌قاعده متوسطه اول
+</footer>
+
+<script>
+const VERBS = [
+  {base:'be', past:'was/were', fa:'بودن'},
+  {base:'become', past:'became', fa:'شدن'},
+  {base:'bleed', past:'bled', fa:'خونریزی کردن'},
+  {base:'break', past:'broke', fa:'شکستن'},
+  {base:'bring', past:'brought', fa:'آوردن'},
+  {base:'build', past:'built', fa:'ساختن'},
+  {base:'buy', past:'bought', fa:'خریدن'},
+  {base:'choose', past:'chose', fa:'انتخاب کردن'},
+  {base:'come', past:'came', fa:'آمدن'},
+  {base:'cut', past:'cut', fa:'بریدن', same:true},
+  {base:'do', past:'did', fa:'انجام دادن'},
+  {base:'draw', past:'drew', fa:'کشیدن (نقاشی)'},
+  {base:'drink', past:'drank', fa:'نوشیدن'},
+  {base:'drive', past:'drove', fa:'رانندگی کردن'},
+  {base:'eat', past:'ate', fa:'خوردن'},
+  {base:'fall', past:'fell', fa:'افتادن'},
+  {base:'feed', past:'fed', fa:'غذا دادن'},
+  {base:'feel', past:'felt', fa:'احساس کردن'},
+  {base:'find', past:'found', fa:'پیدا کردن'},
+  {base:'forget', past:'forgot', fa:'فراموش کردن'},
+  {base:'get', past:'got', fa:'گرفتن، رسیدن'},
+  {base:'give', past:'gave', fa:'دادن'},
+  {base:'go', past:'went', fa:'رفتن'},
+  {base:'have', past:'had', fa:'داشتن'},
+  {base:'hear', past:'heard', fa:'شنیدن'},
+  {base:'hit', past:'hit', fa:'برخورد کردن، زدن', same:true},
+  {base:'hurt', past:'hurt', fa:'آسیب رساندن', same:true},
+  {base:'keep', past:'kept', fa:'نگه داشتن'},
+  {base:'know', past:'knew', fa:'دانستن'},
+  {base:'leave', past:'left', fa:'ترک کردن'},
+  {base:'lose', past:'lost', fa:'گم کردن، باختن'},
+  {base:'make', past:'made', fa:'درست کردن'},
+  {base:'meet', past:'met', fa:'ملاقات کردن'},
+  {base:'pay', past:'paid', fa:'پرداختن'},
+  {base:'put', past:'put', fa:'گذاشتن', same:true},
+  {base:'read', past:'read /red/', fa:'خواندن'},
+  {base:'ride', past:'rode', fa:'سوار شدن'},
+  {base:'run', past:'ran', fa:'دویدن'},
+  {base:'say', past:'said', fa:'گفتن'},
+  {base:'see', past:'saw', fa:'دیدن'},
+  {base:'set', past:'set', fa:'قرار دادن، چیدن', same:true},
+  {base:'sell', past:'sold', fa:'فروختن'},
+  {base:'send', past:'sent', fa:'فرستادن'},
+  {base:'sing', past:'sang', fa:'آواز خواندن'},
+  {base:'sit', past:'sat', fa:'نشستن'},
+  {base:'sleep', past:'slept', fa:'خوابیدن'},
+  {base:'speak', past:'spoke', fa:'صحبت کردن'},
+  {base:'stand', past:'stood', fa:'ایستادن'},
+  {base:'stick', past:'stuck', fa:'چسباندن، گیر کردن'},
+  {base:'swim', past:'swam', fa:'شنا کردن'},
+  {base:'take', past:'took', fa:'گرفتن، بردن'},
+  {base:'take off', past:'took off', fa:'بلند شدن (هواپیما)'},
+  {base:'teach', past:'taught', fa:'درس دادن'},
+  {base:'tell', past:'told', fa:'گفتن (به کسی)'},
+  {base:'think', past:'thought', fa:'فکر کردن'},
+  {base:'understand', past:'understood', fa:'فهمیدن'},
+  {base:'wake', past:'woke', fa:'بیدار شدن'},
+  {base:'wear', past:'wore', fa:'پوشیدن'},
+  {base:'write', past:'wrote', fa:'نوشتن'}
+];
+
+const container = document.getElementById('verbsContainer');
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+const noResults = document.getElementById('noResults');
+const filterPills = document.querySelectorAll('.filter-pill');
+const backToTop = document.getElementById('backToTop');
+
+let currentFilter = 'all';
+let currentSearch = '';
+
+function renderVerbs() {
+  let filtered = VERBS;
+  if (currentFilter === 'same') filtered = VERBS.filter(v => v.same);
+  else if (currentFilter === 'changed') filtered = VERBS.filter(v => !v.same);
+  
+  if (currentSearch) {
+    const q = currentSearch.toLowerCase().trim();
+    filtered = filtered.filter(v => 
+      v.base.toLowerCase().includes(q) || 
+      v.past.toLowerCase().includes(q) ||
+      v.fa.includes(q)
+    );
+  }
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  
+  const groups = {};
+  filtered.forEach(v => {
+    const letter = v.base[0].toUpperCase();
+    if (!groups[letter]) groups[letter] = [];
+    groups[letter].push(v);
+  });
+  
+  let html = '';
+  Object.keys(groups).sort().forEach(letter => {
+    html += `
+      <div class="group-header">
+        <span class="group-letter">${letter}</span>
+        <span>حرف ${letter}</span>
+        <span class="group-count">${groups[letter].length} verbs</span>
+      </div>
+      <div class="verbs-grid">
+        ${groups[letter].map(v => `
+          <div class="verb-card${v.same ? ' same' : ''}">
+            <div class="verb-base">${v.base}</div>
+            <div class="verb-arrow">→</div>
+            <div class="verb-past">${v.past}</div>
+            <div class="verb-fa">${v.fa}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+searchInput.addEventListener('input', e => {
+  currentSearch = e.target.value;
+  searchClear.classList.toggle('show', currentSearch.length > 0);
+  renderVerbs();
+});
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  currentSearch = '';
+  searchClear.classList.remove('show');
+  renderVerbs();
+  searchInput.focus();
+});
+
+filterPills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    filterPills.forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentFilter = pill.dataset.filter;
+    renderVerbs();
+  });
+});
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('show', window.scrollY > 400);
+});
+backToTop.addEventListener('click', () => {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+});
+
+document.getElementById('cntAll').textContent = VERBS.length;
+const sameCount = VERBS.filter(v => v.same).length;
+const changedCount = VERBS.length - sameCount;
+document.getElementById('cntSame').textContent = sameCount;
+document.getElementById('cntChanged').textContent = changedCount;
+document.getElementById('sameCount').textContent = sameCount;
+document.getElementById('changedCount').textContent = changedCount;
+
+renderVerbs();
+</script>
+
+</body>
+</html>

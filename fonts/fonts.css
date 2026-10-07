@@ -1,0 +1,135 @@
+/* English Vision — Local fonts for fast Iran loading */
+
+/* ─── Vazirmatn (used as Estedad alias for Persian) ─── */
+@font-face{
+  font-family:'Estedad';
+  src:url('Vazirmatn-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Estedad';
+  src:url('Vazirmatn-Medium.woff2') format('woff2');
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Estedad';
+  src:url('Vazirmatn-Bold.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Estedad';
+  src:url('Vazirmatn-Black.woff2') format('woff2');
+  font-weight:900;font-style:normal;font-display:swap;
+}
+
+/* Aliases for Vazirmatn name */
+@font-face{
+  font-family:'Vazirmatn';
+  src:url('Vazirmatn-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Vazirmatn';
+  src:url('Vazirmatn-Bold.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+
+/* ─── Playfair Display (English editorial font) ─── */
+@font-face{
+  font-family:'Playfair Display';
+  src:url('PlayfairDisplay-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Playfair Display';
+  src:url('PlayfairDisplay-Italic.woff2') format('woff2');
+  font-weight:400;font-style:italic;font-display:swap;
+}
+@font-face{
+  font-family:'Playfair Display';
+  src:url('PlayfairDisplay-Bold.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Playfair Display';
+  src:url('PlayfairDisplay-Black.woff2') format('woff2');
+  font-weight:900;font-style:normal;font-display:swap;
+}
+
+/* Caveat (دست‌خط) — alias به Playfair Italic موجود */
+@font-face{
+  font-family:'Caveat';
+  src:url('PlayfairDisplay-Italic.woff2') format('woff2');
+  font-weight:400 700;font-style:normal;font-display:swap;
+}
+
+
+/* ═══ EV base layer — دسترس‌پذیری و رفتار پایه (همه‌ی صفحات) ═══ */
+html{scroll-behavior:smooth}
+section[id],div[id]{scroll-margin-top:84px}
+:focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+
+/* جمله‌های مخلوط فارسی/انگلیسی: ترتیب نمایش درست بدون تغییر چینش */
+.conv-fa,.reading-para-fa,.lesson-card-desc,.section-desc,.grade-detail,
+.header-title-fa,.lesson-card-title-fa,.sidebar-text,
+.footer-btn .title{unicode-bidi:plaintext}
+
+/* بلوک‌های سؤال و صورتِ تمرین: جهتِ خودکار — انگلیسی چپ، فارسی راست */
+.quiz-q-en,.rc-mcq-q,.rc-tf-stmt,.rc-q-text,.rc-match-text,
+.wh-q,.conv-q-en,.wb-prompt,.wb-task-en,.wb-hint{unicode-bidi:plaintext;text-align:start}
+/* گزینه‌ها و آیتم‌های کوتاه: فقط ترتیب درست، بدون جابه‌جایی چینش دکمه‌ها */
+.quiz-opt,.rc-mcq-opt,.rc-match-opt,.rc-target,
+.wb-bank-word,.wb-pic-hint,.wh-base,.wh-word{unicode-bidi:plaintext}
+
+/* ─── Lumiare (لوگوی English Vision — فقط لاتین) ─── */
+@font-face{
+  font-family:'Lumiare';
+  src:url('Lumiare.woff') format('woff'),
+      url('Lumiare.otf') format('opentype');
+  font-weight:normal;font-style:normal;font-display:swap;
+}
+
+/* ═══ IRANYekanX — فونت اصلی سایت (تم Clay) ═══ */
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-Light.woff2') format('woff2'),url('IRANYekanX-Light.woff') format('woff');
+  font-weight:300;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-Regular.woff2') format('woff2'),url('IRANYekanX-Regular.woff') format('woff');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-Medium.woff2') format('woff2'),url('IRANYekanX-Medium.woff') format('woff');
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-DemiBold.woff2') format('woff2'),url('IRANYekanX-DemiBold.woff') format('woff');
+  font-weight:600;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-Bold.woff2') format('woff2'),url('IRANYekanX-Bold.woff') format('woff');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-ExtraBold.woff2') format('woff2'),url('IRANYekanX-ExtraBold.woff') format('woff');
+  font-weight:800;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'IRANYekanX';
+  src:url('IRANYekanX-Black.woff2') format('woff2'),url('IRANYekanX-Black.woff') format('woff');
+  font-weight:900;font-style:normal;font-display:swap;
+}
